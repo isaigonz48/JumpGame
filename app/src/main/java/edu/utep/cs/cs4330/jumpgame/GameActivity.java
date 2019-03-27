@@ -1,5 +1,7 @@
 package edu.utep.cs.cs4330.jumpgame;
 
+import android.graphics.Canvas;
+import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.SurfaceView;
@@ -14,7 +16,7 @@ public class GameActivity extends AppCompatActivity {
     //private ImageView player;
     //private FrameLayout frame;
 
-    private SurfaceView surface;
+    private GameView game;
     private Player player;
     private int x;
     private int y;
@@ -24,8 +26,9 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        surface = findViewById(R.id.surfaceView);
-        player = new Player();
+        GameView game = new GameView(this);
+
+        game.run();
 
         //player = findViewById(R.id.playerView);
         //frame = findViewById(R.id.frameLayout);
