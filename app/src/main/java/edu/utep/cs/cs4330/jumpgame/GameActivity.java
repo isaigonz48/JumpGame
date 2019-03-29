@@ -24,11 +24,13 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_game);
+        //setContentView(R.layout.activity_game);
 
-        GameView game = new GameView(this);
+        game = new GameView(this);
 
-        game.run();
+        setContentView(game);
+
+        //game.run();
 
         //player = findViewById(R.id.playerView);
         //frame = findViewById(R.id.frameLayout);
@@ -36,5 +38,17 @@ public class GameActivity extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        game.pause();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        game.resume();
     }
 }

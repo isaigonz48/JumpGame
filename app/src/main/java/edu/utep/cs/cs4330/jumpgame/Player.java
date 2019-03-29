@@ -41,8 +41,11 @@ public class Player {
     }
 
     public void draw(Canvas canvas){
-        canvas.drawColor(rectColor);
-        Paint paint = new Paint(rectColor);
+        //canvas.drawColor(rectColor);
+        Paint paint = new Paint();
+        paint.setColor(this.rectColor);
         canvas.drawRect(this.rect, paint);
     }
+
+
 }
