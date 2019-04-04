@@ -29,7 +29,7 @@ public class GameView extends SurfaceView implements Runnable {
         canvas = new Canvas();
 
         Point point = new Point(100,550);
-        player = new Player(point);
+        player = new Player(context, point);
     }
 
     @Override
@@ -61,7 +61,7 @@ public class GameView extends SurfaceView implements Runnable {
     private void draw(){
         if(surfaceHolder.getSurface().isValid()) {
             canvas = surfaceHolder.lockCanvas();
-            canvas.drawColor(Color.rgb(0, 0, 50));
+            canvas.drawColor(Color.rgb(0, 0, 150));
             player.draw(canvas);
             surfaceHolder.unlockCanvasAndPost(canvas);
         }

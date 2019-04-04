@@ -1,17 +1,20 @@
 package edu.utep.cs.cs4330.jumpgame;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.support.constraint.solver.widgets.Rectangle;
 
 import java.util.Vector;
 
 public class Player {
-    //private Bitmap model;
+    private Bitmap model;
     private final int PLAYER_GRAVITY = 5;
     private final int INITIAL_Y = 550;
 
@@ -27,8 +30,31 @@ public class Player {
 
     public Player(){
         this.rect = new Rect(100,500,200,600);
+        //this.model = new Bitmap();
         rectColor = Color.rgb(255,0,0);
         this.point = new Point(0,0);
+        this.jumpBuffer = false;
+        this.isJumping = false;
+        this.xVel = 0;
+        this.yVel = 0;
+    }
+
+    public Player(Context context){
+        this.rect = new Rect(100,500,200,600);
+        this.model = BitmapFactory.decodeResource(context.getResources(), R.drawable.basic_square);
+        rectColor = Color.rgb(255,0,0);
+        this.point = new Point(0,0);
+        this.jumpBuffer = false;
+        this.isJumping = false;
+        this.xVel = 0;
+        this.yVel = 0;
+    }
+
+    public Player(Context context, Point point){
+        this.rect = new Rect(100,500,200,600);
+        this.model = BitmapFactory.decodeResource(context.getResources(), R.drawable.basic_square);
+        rectColor = Color.rgb(255,0,0);
+        this.point = point;
         this.jumpBuffer = false;
         this.isJumping = false;
         this.xVel = 0;
@@ -62,9 +88,10 @@ public class Player {
     public void draw(Canvas canvas){
         //canvas.drawColor(rectColor);
         Paint paint = new Paint();
-        paint.setColor(this.rectColor);
+        /*paint.setColor(this.rectColor);
         this.rect.set(100,this.point.y+50,200, this.point.y-50);
-        canvas.drawRect(this.rect, paint);
+        canvas.drawRect(this.rect, paint);*/
+        canvas.drawBitmap(model, point.x, point.y, paint);
     }
 
     public void update(){
