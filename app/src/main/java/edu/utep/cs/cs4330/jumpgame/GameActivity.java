@@ -30,6 +30,10 @@ public class GameActivity extends AppCompatActivity {
 
         setContentView(game);
 
+        if(game.getLost()){
+            finish();
+        }
+
         //game.run();
 
         //player = findViewById(R.id.playerView);

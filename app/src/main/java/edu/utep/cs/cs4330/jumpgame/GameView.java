@@ -1,10 +1,12 @@
 package edu.utep.cs.cs4330.jumpgame;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -23,6 +25,8 @@ public class GameView extends SurfaceView implements Runnable {
     private Player player;
     private ObstacleSimpleSquare obs1;
 
+    private boolean lost;
+
     public GameView(Context context){
         super(context);
 
@@ -33,6 +37,8 @@ public class GameView extends SurfaceView implements Runnable {
         Point point = new Point(200,550);
         player = new Player(context, point);
         obs1 = new ObstacleSimpleSquare(context, new Point(1500, 550));
+
+        lost = false;
     }
 
     @Override
@@ -64,19 +70,30 @@ public class GameView extends SurfaceView implements Runnable {
         player.update();
         obs1.update();
         checkCollision();
-        //Log.d("GAMEUPDATE", "lost");
 
     }
 
     private void checkCollision(){
-        if(player.getRectangle().intersect(obs1.getRect())){
+        //Log.d("GAMEUPDATE", "lost");
+
+        if(Rect.intersects(player.getRect(),obs1.getRect())){
+            ///// left top right bottom
+            //player.getRectangle().intersects(obs1.getRect().left,obs1.getRect().top,obs1.getRect().right,obs1.getRect().bottom);
             lose();
-            Log.d("GAMEUPDATE", "lost");
+            //player.setX(-100);
+            //Log.d("GAMEUPDATE", "lost");
         }
     }
 
     private void lose(){
         isRunning = false;
+        lost = true;
+        Log.d("GAMEUPDATE", "lost");
+        getContext().startActivity(new Intent(getContext(), MainActivity.class));
+    }
+
+    public boolean getLost(){
+        return this.lost;
     }
 
     private void draw(){

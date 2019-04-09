@@ -5,9 +5,13 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Log;
+
+import java.time.LocalDate;
 
 public class ObstacleSimpleSquare extends Obstacle {
     private Rect rect;
+    private int halfWidth;
 
 
     public ObstacleSimpleSquare(Point point) {
@@ -18,8 +22,12 @@ public class ObstacleSimpleSquare extends Obstacle {
 
     public ObstacleSimpleSquare(Context context, Point point) {
         super(context, point);
-        this.rect = new Rect(point.x + 50, point.y - 50, point.x - 50, point.y + 50);
-        this.xVel = -5;
+        this.halfWidth = 50;
+        this.rect = new Rect(point.x - halfWidth, point.y - halfWidth,
+                point.x + halfWidth, point.y + halfWidth);
+
+        //this.rect = new Rect(point.x + 50, point.y - 50, point.x - 50, point.y + 50);
+        this.xVel = -10;
     }
 
     @Override
@@ -33,7 +41,17 @@ public class ObstacleSimpleSquare extends Obstacle {
     @Override
     public void update() {
         super.update();
-        this.rect.set(this.point.x - 50,this.point.y+50,this.point.x + 50, this.point.y-50);
+        //this.rect.set(this.point.x-halfWidth,this.point.y+halfWidth,
+          //      this.point.x+halfWidth, this.point.y-halfWidth);
+        //this.rect.set(this.point.x-halfWidth,this.point.y+halfWidth,
+          //      this.point.x+halfWidth, this.point.y-halfWidth);
+
+        this.rect.left = point.x-halfWidth;
+        this.rect.top = point.y-halfWidth;
+        this.rect.right = point.x+halfWidth;
+        this.rect.bottom = point.y+halfWidth;
+
+        //Log.d("OBSUPDATE", ("" + this.rect.left));
 
 
     }

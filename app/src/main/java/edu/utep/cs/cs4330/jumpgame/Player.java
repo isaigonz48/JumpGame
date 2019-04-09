@@ -23,12 +23,13 @@ public class Player {
 
 
 
-    private final int[] jumpAnimation = {R.drawable.basic_square, R.drawable.basic_square_rotate1, R.drawable.basic_square_rotate2, R.drawable.basic_square_rotate3};
+    //private final int[] jumpAnimation = {R.drawable.basic_square, R.drawable.basic_square_rotate1, R.drawable.basic_square_rotate2, R.drawable.basic_square_rotate3};
 
     private Bitmap model;
     private final int PLAYER_GRAVITY = 5;
     private final int INITIAL_Y = 550;
 
+    private int halfWidth;
     private Rect rect;
     private int rectColor;
     private Point point;
@@ -66,10 +67,13 @@ public class Player {
     }
 
     public Player(Context context, Point point){
-        this.rect = new Rect(100,500,200,600);
+        this.halfWidth = 50;
         this.model = BitmapFactory.decodeResource(context.getResources(), R.drawable.basic_square);
         rectColor = Color.rgb(255,0,0);
         this.point = point;
+        this.rect = new Rect(point.x - halfWidth, point.y - halfWidth,
+                point.x + halfWidth, point.y + halfWidth);
+
         this.jumpBuffer = false;
         this.isJumping = false;
         this.xVel = 0;
@@ -89,12 +93,20 @@ public class Player {
         this.point = point;
     }
 
-    public Rect getRectangle(){
+    public Rect getRect(){
         return this.rect;
     }
 
     public Point getPoint(){
         return this.point;
+    }
+
+    public void setX(int x){
+        this.point.x = x;
+    }
+
+    public void setY(int y){
+        this.point.y = y;
     }
 
     public void bufferJump(){
@@ -120,8 +132,15 @@ public class Player {
             jump();
         }
         jumpBuffer = false;
+        this.point.x += xVel;
         this.point.y += yVel;
-        this.rect.set(this.point.x - 50,this.point.y+50,this.point.x + 50, this.point.y-50);
+        //this.rect.set(this.point.x-halfWidth,this.point.y+halfWidth,
+          //      this.point.x+halfWidth, this.point.y-halfWidth);
+
+        this.rect.left = point.x-halfWidth;
+        this.rect.top = point.y-halfWidth;
+        this.rect.right = point.x+halfWidth;
+        this.rect.bottom = point.y+halfWidth;
 
     }
 
