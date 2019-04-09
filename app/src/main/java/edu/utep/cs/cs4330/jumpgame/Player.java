@@ -13,7 +13,18 @@ import android.support.constraint.solver.widgets.Rectangle;
 
 import java.util.Vector;
 
+
 public class Player {
+
+    private static final String NORMAL_PLAYER = "basic_square";
+    private static final String ROTATE_ANIMATION_1 = "basic_square_rotate1";
+    private static final String ROTATE_ANIMATION_2 = "basic_square_rotate2";
+    private static final String ROTATE_ANIMATION_3 = "basic_square_rotate3";
+
+
+
+    private final int[] jumpAnimation = {R.drawable.basic_square, R.drawable.basic_square_rotate1, R.drawable.basic_square_rotate2, R.drawable.basic_square_rotate3};
+
     private Bitmap model;
     private final int PLAYER_GRAVITY = 5;
     private final int INITIAL_Y = 550;
@@ -21,11 +32,14 @@ public class Player {
     private Rect rect;
     private int rectColor;
     private Point point;
+    private Context context;
 
     private boolean jumpBuffer;
     private boolean isJumping;
     private int xVel;
     private int yVel;
+
+    //private short jumpTick;
 
 
     public Player(){
@@ -48,6 +62,7 @@ public class Player {
         this.isJumping = false;
         this.xVel = 0;
         this.yVel = 0;
+        this.context = context;
     }
 
     public Player(Context context, Point point){
@@ -59,6 +74,7 @@ public class Player {
         this.isJumping = false;
         this.xVel = 0;
         this.yVel = 0;
+        //jumpTick = 0;
     }
 
     public Player(Point point){
@@ -88,10 +104,10 @@ public class Player {
     public void draw(Canvas canvas){
         //canvas.drawColor(rectColor);
         Paint paint = new Paint();
-        /*paint.setColor(this.rectColor);
-        this.rect.set(100,this.point.y+50,200, this.point.y-50);
-        canvas.drawRect(this.rect, paint);*/
-        canvas.drawBitmap(model, point.x, point.y, paint);
+        paint.setColor(this.rectColor);
+        canvas.drawRect(this.rect, paint);
+        /////left top
+        //canvas.drawBitmap(model, point.x - 50, point.y - 50, paint);
     }
 
     public void update(){
@@ -105,14 +121,22 @@ public class Player {
         }
         jumpBuffer = false;
         this.point.y += yVel;
+        this.rect.set(this.point.x - 50,this.point.y+50,this.point.x + 50, this.point.y-50);
+
     }
 
+
+
     private void jump(){
+        //if(jumpTick++ > 3)
+          //  jumpTick = 0;
 
         this.yVel += PLAYER_GRAVITY;
+        //this.model = BitmapFactory.decodeResource(this.context.getResources(), jumpAnimation[jumpTick]);
         if(this.point.y == INITIAL_Y) {
             isJumping = false;
             yVel = 0;
+            //jumpTick = 0;
         }
     }
 }

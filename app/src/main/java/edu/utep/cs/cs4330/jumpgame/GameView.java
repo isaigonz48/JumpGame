@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -20,6 +21,7 @@ public class GameView extends SurfaceView implements Runnable {
     private Canvas canvas;
 
     private Player player;
+    private ObstacleSimpleSquare obs1;
 
     public GameView(Context context){
         super(context);
@@ -28,8 +30,9 @@ public class GameView extends SurfaceView implements Runnable {
         paint = new Paint();
         canvas = new Canvas();
 
-        Point point = new Point(100,550);
+        Point point = new Point(200,550);
         player = new Player(context, point);
+        obs1 = new ObstacleSimpleSquare(context, new Point(1500, 550));
     }
 
     @Override
@@ -37,6 +40,9 @@ public class GameView extends SurfaceView implements Runnable {
         //isRunning = true;
 
         while(isRunning){
+            try{
+                gameThread.sleep(17);
+            }catch(InterruptedException e){}
             update();
             draw();
 
@@ -56,13 +62,29 @@ public class GameView extends SurfaceView implements Runnable {
             player.bufferJump();
         });
         player.update();
+        obs1.update();
+        checkCollision();
+        //Log.d("GAMEUPDATE", "lost");
+
+    }
+
+    private void checkCollision(){
+        if(player.getRectangle().intersect(obs1.getRect())){
+            lose();
+            Log.d("GAMEUPDATE", "lost");
+        }
+    }
+
+    private void lose(){
+        isRunning = false;
     }
 
     private void draw(){
         if(surfaceHolder.getSurface().isValid()) {
             canvas = surfaceHolder.lockCanvas();
-            canvas.drawColor(Color.rgb(0, 0, 150));
+            canvas.drawColor(Color.rgb(255, 255, 255));
             player.draw(canvas);
+            obs1.draw(canvas);
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
     }
