@@ -40,6 +40,8 @@ public class Player {
     private int xVel;
     private int yVel;
 
+    //private int prevYVel;
+    private int prevYPos;
     //private short jumpTick;
 
 
@@ -131,6 +133,8 @@ public class Player {
         }else{
             jump();
         }
+        prevYPos = this.point.y;
+
         jumpBuffer = false;
         this.point.x += xVel;
         this.point.y += yVel;
@@ -154,8 +158,19 @@ public class Player {
         //this.model = BitmapFactory.decodeResource(this.context.getResources(), jumpAnimation[jumpTick]);
         if(this.point.y == INITIAL_Y) {
             isJumping = false;
-            yVel = 0;
+            //yVel = 0;
             //jumpTick = 0;
         }
+    }
+
+    public void collidedWithFloor(){
+        point.y = prevYPos;
+        yVel = 0;
+
+        //this.rect.left = point.x-halfWidth;
+        this.rect.top = point.y-halfWidth;
+        //this.rect.right = point.x+halfWidth;
+        this.rect.bottom = point.y+halfWidth;
+
     }
 }

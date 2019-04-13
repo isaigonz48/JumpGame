@@ -8,12 +8,16 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
+
 public class GameView extends SurfaceView implements Runnable {
+
+    final static int[] level1 = {2};
 
     private boolean isRunning;
     private Thread gameThread = null;
@@ -23,11 +27,13 @@ public class GameView extends SurfaceView implements Runnable {
     private Canvas canvas;
 
     private Player player;
-    private ObstacleSimpleSquare obs1;
+    private Obstacle obs1;
+    private Floor floor;
 
+    private int[] obstacles;
     private boolean lost;
 
-    public GameView(Context context){
+    public GameView(Context context, Point screenSize){
         super(context);
 
         surfaceHolder = getHolder();
@@ -36,7 +42,11 @@ public class GameView extends SurfaceView implements Runnable {
 
         Point point = new Point(200,550);
         player = new Player(context, point);
-        obs1 = new ObstacleSimpleSquare(context, new Point(1500, 550));
+
+        floor = new Floor(new Point(800, 600), screenSize.x);
+        //obs1 = new ObstacleSimpleSquare(context, new Point(1500, 550));
+        obs1 = new ObstaclePlatform(context, new Point(3000, 550));
+        this.obstacles = level1;
 
         lost = false;
     }
@@ -47,7 +57,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         while(isRunning){
             try{
-                gameThread.sleep(17);
+                gameThread.sleep(5);
             }catch(InterruptedException e){}
             update();
             draw();
@@ -68,7 +78,9 @@ public class GameView extends SurfaceView implements Runnable {
             player.bufferJump();
         });
         player.update();
+
         obs1.update();
+        floor.update();
         checkCollision();
 
     }
@@ -76,12 +88,20 @@ public class GameView extends SurfaceView implements Runnable {
     private void checkCollision(){
         //Log.d("GAMEUPDATE", "lost");
 
+        if(Rect.intersects(player.getRect(), floor.getFloorLine())){
+            player.collidedWithFloor();
+        }
         if(Rect.intersects(player.getRect(),obs1.getRect())){
-            ///// left top right bottom
-            //player.getRectangle().intersects(obs1.getRect().left,obs1.getRect().top,obs1.getRect().right,obs1.getRect().bottom);
-            lose();
-            //player.setX(-100);
-            //Log.d("GAMEUPDATE", "lost");
+            if(obs1.getIsPlatform()){
+                player.collidedWithFloor();
+            }else {
+                //if();
+                ///// left top right bottom
+                //player.getRectangle().intersects(obs1.getRect().left,obs1.getRect().top,obs1.getRect().right,obs1.getRect().bottom);
+                lose();
+                //player.setX(-100);
+                //Log.d("GAMEUPDATE", "lost");
+            }
         }
     }
 
@@ -102,6 +122,7 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawColor(Color.rgb(255, 255, 255));
             player.draw(canvas);
             obs1.draw(canvas);
+            floor.draw(canvas);
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
     }

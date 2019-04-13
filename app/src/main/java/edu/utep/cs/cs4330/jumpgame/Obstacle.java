@@ -12,7 +12,7 @@ public class Obstacle {
     //private final int PLAYER_GRAVITY = 5;
     //private final int INITIAL_Y = 550;
 
-    //private Rect rect;
+    protected Rect rect;
     //private int rectColor;
     protected Point point;
     protected int color;
@@ -23,14 +23,17 @@ public class Obstacle {
     protected int yVel;
     //protected double xVel;
 
+    protected boolean isPlatform;
+
 
     public Obstacle(){
         //this.rect = new Rect(100,500,200,600);
         color = Color.rgb(0,0,0);
         this.point = new Point(0,0);
        // new Po
-        this.xVel = -10;
+        this.xVel = -30;
         this.yVel = 0;
+        isPlatform = false;
     }
 
     public Obstacle(Point point){
@@ -38,6 +41,7 @@ public class Obstacle {
         color = Color.rgb(0,0,0);
         this.color = Color.rgb(0,0,0);
         this.point = point;
+        isPlatform = false;
     }
 
     public Obstacle(Context context, Point point){
@@ -45,12 +49,14 @@ public class Obstacle {
         color = Color.rgb(0,0,0);
         this.color = Color.rgb(0,0,0);
         this.point = point;
+        isPlatform = false;
     }
 
     public Obstacle(int color, Point point){
         //this.rect = rectangle;
         this.color = color;
         this.point = point;
+        isPlatform = false;
     }
 
     public Point getPoint(){
@@ -65,6 +71,14 @@ public class Obstacle {
         return this.xVel;
     }
 
+    public Rect getRect(){
+        return this.rect;
+    }
+
+    public boolean getIsPlatform(){
+        return this.isPlatform;
+    }
+
     public void draw(Canvas canvas){
         //canvas.drawColor(rectColor);
         //Paint paint = new Paint();
@@ -76,5 +90,6 @@ public class Obstacle {
     public void update(){
         this.point.x += this.xVel;
         this.point.y += this.yVel;
+
     }
 }
