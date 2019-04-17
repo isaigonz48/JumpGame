@@ -43,6 +43,7 @@ public class Player {
     //private int prevYVel;
     private int prevYPos;
     //private short jumpTick;
+    private int startingY;
 
 
     public Player(){
@@ -80,6 +81,7 @@ public class Player {
         this.isJumping = false;
         this.xVel = 0;
         this.yVel = 0;
+        this.startingY = this.point.y;
         //jumpTick = 0;
     }
 
@@ -164,7 +166,18 @@ public class Player {
     }
 
     public void collidedWithFloor(){
-        point.y = prevYPos;
+        point.y = startingY;//prevYPos;
+        yVel = 0;
+
+        //this.rect.left = point.x-halfWidth;
+        this.rect.top = point.y-halfWidth;
+        //this.rect.right = point.x+halfWidth;
+        this.rect.bottom = point.y+halfWidth;
+
+    }
+
+    public void collidedWithPlatform(Obstacle o){
+        point.y = (o.getRect().top+1)-halfWidth;
         yVel = 0;
 
         //this.rect.left = point.x-halfWidth;

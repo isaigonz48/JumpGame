@@ -17,6 +17,8 @@ import android.view.View;
 
 public class GameView extends SurfaceView implements Runnable {
 
+    private static String TAG = "GAMEVIEW";
+
     final static int[] level1 = {2};
 
     private boolean isRunning;
@@ -88,23 +90,46 @@ public class GameView extends SurfaceView implements Runnable {
     private void checkCollision(){
         //Log.d("GAMEUPDATE", "lost");
 
-        if(Rect.intersects(player.getRect(), floor.getFloorLine())){
+        Rect playerRect = player.getRect();
+        if(Rect.intersects(player.getRect(), floor.getFloorLine())) {
             player.collidedWithFloor();
         }
-        if(Rect.intersects(player.getRect(),obs1.getRect())){
+        if(Rect.intersects(playerRect, obs1.getRect())){
             if(obs1.getIsPlatform()){
-                player.collidedWithFloor();
-            }else {
-                //if();
-                ///// left top right bottom
-                //player.getRectangle().intersects(obs1.getRect().left,obs1.getRect().top,obs1.getRect().right,obs1.getRect().bottom);
+                player.collidedWithPlatform(obs1);
+                Log.d(TAG, )
+                if(Rect.intersects(playerRect, obs1.getRect()))
+                    lose();
+            }else{
                 lose();
-                //player.setX(-100);
-                //Log.d("GAMEUPDATE", "lost");
             }
         }
+     /*   //Rect.intersects(player.getRect(),obs1.getRect())){
+        if(obs1.getIsPlatform()){
+            //if()
+            player.collidedWithPlatform(obs1);
+
+        }else{
+            //if();
+            ///// left top right bottom
+            //player.getRectangle().intersects(obs1.getRect().left,obs1.getRect().top,obs1.getRect().right,obs1.getRect().bottom);
+            lose();
+            //player.setX(-100);
+            //Log.d("GAMEUPDATE", "lost");
+        }
+    }*/
     }
 
+    private boolean directHit(Obstacle o){
+        //player.getRect().
+        Rect playerRect = player.getRect();
+        Rect obsRect = o.getRect();
+        if(playerRect.right > obsRect.left
+                && playerRect.bottom > obsRect.top)
+            return true;
+
+        return false;
+    }
     private void lose(){
         isRunning = false;
         lost = true;
