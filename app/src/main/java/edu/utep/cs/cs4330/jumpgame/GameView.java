@@ -76,9 +76,10 @@ public class GameView extends SurfaceView implements Runnable {
 
 
     private void update(){
-        this.setOnClickListener(view ->{
+
+        /*this.setOnClickListener(view ->{
             player.bufferJump();
-        });
+        });*/
         player.update();
 
         obs1.update();
@@ -97,9 +98,9 @@ public class GameView extends SurfaceView implements Runnable {
         if(Rect.intersects(playerRect, obs1.getRect())){
             if(obs1.getIsPlatform()){
                 player.collidedWithPlatform(obs1);
-                Log.d(TAG, )
-                if(Rect.intersects(playerRect, obs1.getRect()))
-                    lose();
+                //Log.d(TAG, )
+                //if(Rect.intersects(playerRect, obs1.getRect()))
+                  //  lose();
             }else{
                 lose();
             }

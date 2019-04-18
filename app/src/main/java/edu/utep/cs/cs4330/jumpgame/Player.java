@@ -26,7 +26,7 @@ public class Player {
     //private final int[] jumpAnimation = {R.drawable.basic_square, R.drawable.basic_square_rotate1, R.drawable.basic_square_rotate2, R.drawable.basic_square_rotate3};
 
     private Bitmap model;
-    private final int PLAYER_GRAVITY = 5;
+    private final int PLAYER_GRAVITY = 4;
     private final int INITIAL_Y = 550;
 
     private int halfWidth;
@@ -37,6 +37,7 @@ public class Player {
 
     private boolean jumpBuffer;
     private boolean isJumping;
+    private boolean isFalling;
     private int xVel;
     private int yVel;
 
@@ -127,13 +128,15 @@ public class Player {
     }
 
     public void update(){
-        if(!isJumping) {
+        if(!isJumping && !isFalling) {
             if(this.jumpBuffer) {
-                yVel = -50;
+                yVel = -52;
                 isJumping = true;
             }
-        }else{
+        }else if(isJumping){
             jump();
+        }else if(isFalling){
+            this.yVel += PLAYER_GRAVITY;
         }
         prevYPos = this.point.y;
 
@@ -158,8 +161,9 @@ public class Player {
 
         this.yVel += PLAYER_GRAVITY;
         //this.model = BitmapFactory.decodeResource(this.context.getResources(), jumpAnimation[jumpTick]);
-        if(this.point.y == INITIAL_Y) {
+        if(this.yVel <= 0){//this.point.y == INITIAL_Y) {
             isJumping = false;
+            isFalling = true;
             //yVel = 0;
             //jumpTick = 0;
         }
@@ -169,11 +173,12 @@ public class Player {
         point.y = startingY;//prevYPos;
         yVel = 0;
 
+
         //this.rect.left = point.x-halfWidth;
         this.rect.top = point.y-halfWidth;
         //this.rect.right = point.x+halfWidth;
         this.rect.bottom = point.y+halfWidth;
-
+        isFalling = false;
     }
 
     public void collidedWithPlatform(Obstacle o){
@@ -184,6 +189,8 @@ public class Player {
         this.rect.top = point.y-halfWidth;
         //this.rect.right = point.x+halfWidth;
         this.rect.bottom = point.y+halfWidth;
+        isFalling = false;
+
 
     }
 }
