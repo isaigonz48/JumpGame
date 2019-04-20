@@ -182,14 +182,14 @@ public class Player {
     }
 
     public void collidedWithPlatform(Obstacle o){
-        point.y = (o.getRect().top+1)-halfWidth;
+        point.y = (o.getRect().top-1)-halfWidth;
         yVel = 0;
 
         //this.rect.left = point.x-halfWidth;
         this.rect.top = point.y-halfWidth;
         //this.rect.right = point.x+halfWidth;
         this.rect.bottom = point.y+halfWidth;
-        isFalling = false;
+        //isFalling = false;
 
 
     }

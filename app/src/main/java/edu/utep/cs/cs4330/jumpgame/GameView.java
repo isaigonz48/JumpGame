@@ -76,19 +76,37 @@ public class GameView extends SurfaceView implements Runnable {
 
 
     private void update(){
+        this.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
 
-        /*this.setOnClickListener(view ->{
-            player.bufferJump();
-        });*/
+                switch(event.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        performClick();
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        return true;
+                }
+                return false;
+            }
+        });
+        this.setOnClickListener(view -> player.bufferJump());
         player.update();
 
         obs1.update();
         floor.update();
-        checkCollision();
+        checkCollisions();
 
     }
 
-    private void checkCollision(){
+    @Override
+    public boolean performClick(){
+        super.performClick();
+        player.bufferJump();
+        return true;
+    }
+
+    private void checkCollisions(){
         //Log.d("GAMEUPDATE", "lost");
 
         Rect playerRect = player.getRect();
@@ -96,15 +114,35 @@ public class GameView extends SurfaceView implements Runnable {
             player.collidedWithFloor();
         }
         if(Rect.intersects(playerRect, obs1.getRect())){
+        //if(myCollision(playerRect, obs1.getRect())){
             if(obs1.getIsPlatform()){
                 player.collidedWithPlatform(obs1);
-                //Log.d(TAG, )
-                //if(Rect.intersects(playerRect, obs1.getRect()))
-                  //  lose();
+
+                Log.d(TAG, "Player y: " + Integer.toString(player.getPoint().y));
+
+
+                Log.d(TAG, "Player bottom: " + Integer.toString(playerRect.bottom));
+                Log.d(TAG, "Player top: " + Integer.toString(playerRect.top));
+                Log.d(TAG, "Player left: " + Integer.toString(playerRect.left));
+                Log.d(TAG, "Player right: " + Integer.toString(playerRect.right));
+
+                Log.d(TAG, Integer.toString(obs1.getPoint().y));
+
+                Log.d(TAG, Integer.toString(obs1.getRect().bottom));
+                Log.d(TAG, Integer.toString(obs1.getRect().top));
+
+                Log.d(TAG, Integer.toString(obs1.getRect().left));
+                Log.d(TAG, Integer.toString(obs1.getRect().right));
+
+
+                if(Rect.intersects(playerRect, obs1.getRect()))
+                    lose();
             }else{
                 lose();
             }
         }
+
+
      /*   //Rect.intersects(player.getRect(),obs1.getRect())){
         if(obs1.getIsPlatform()){
             //if()
@@ -119,6 +157,14 @@ public class GameView extends SurfaceView implements Runnable {
             //Log.d("GAMEUPDATE", "lost");
         }
     }*/
+    }
+
+    private boolean myCollision(Rect r1, Rect r2){
+        if(r1.top <= r2.bottom && r1.bottom >= r2.top
+                    && r1.left <= r2.right && r1.right >= r2.left)
+            return true;
+
+        return false;
     }
 
     private boolean directHit(Obstacle o){
