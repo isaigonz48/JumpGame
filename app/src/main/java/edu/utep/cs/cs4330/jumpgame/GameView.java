@@ -14,6 +14,10 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
 
 public class GameView extends SurfaceView implements Runnable {
 
@@ -29,10 +33,14 @@ public class GameView extends SurfaceView implements Runnable {
     private Canvas canvas;
 
     private Player player;
+    private ObstacleFactory obstacleFactory;
+    private Queue<Obstacle> obstaclesOnScreen;
+    //private Obstacle[] obstaclesOnScreen;
     private Obstacle obs1;
     private Floor floor;
 
-    private int[] obstacles;
+    private int[] levelObstacles;
+    private int count;
     private boolean lost;
 
     public GameView(Context context, Point screenSize){
@@ -48,7 +56,12 @@ public class GameView extends SurfaceView implements Runnable {
         floor = new Floor(new Point(800, 600), screenSize.x);
         //obs1 = new ObstacleSimpleSquare(context, new Point(1500, 550));
         obs1 = new ObstaclePlatform(context, new Point(3000, 550));
-        this.obstacles = level1;
+        obstacleFactory = new ObstacleFactory(screenSize.x);
+
+        //obstaclesOnScreen = new Obstacle[(screenSize.x / 100) + 2];
+        obstaclesOnScreen = new LinkedList<>();
+        levelObstacles = level1;
+        count = 0;
 
         lost = false;
     }
@@ -93,9 +106,26 @@ public class GameView extends SurfaceView implements Runnable {
         this.setOnClickListener(view -> player.bufferJump());
         player.update();
 
-        obs1.update();
+        updateObstaclesOnScreen();
+
+        for(int i = 0; i < obstaclesOnScreen.length; i++){
+            obstaclesOnScreen[i].update();
+        }
+        //obs1.update();
         floor.update();
         checkCollisions();
+
+    }
+
+    private void updateObstaclesOnScreen(){
+        if(obstaclesOnScreen.peek().getPoint().x < -50){
+            obstaclesOnScreen.remove();
+        }
+        if(levelObstacles[count] > 0){
+            obstaclesOnScreen.add(obstacleFactory.createObstacle(levelObstacles[count]));
+        }
+
+        count++;
 
     }
 
@@ -113,32 +143,34 @@ public class GameView extends SurfaceView implements Runnable {
         if(Rect.intersects(player.getRect(), floor.getFloorLine())) {
             player.collidedWithFloor();
         }
-        if(Rect.intersects(playerRect, obs1.getRect())){
-        //if(myCollision(playerRect, obs1.getRect())){
-            if(obs1.getIsPlatform()){
-                player.collidedWithPlatform(obs1);
+        for(int i = 0; i < obstaclesOnScreen.length; i++) {
+            if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect())) {
+                //if(myCollision(playerRect, obs1.getRect())){
+                if (obstaclesOnScreen[i].getIsPlatform()) {
+                    player.collidedWithPlatform(obstaclesOnScreen[i]);
 
-                Log.d(TAG, "Player y: " + Integer.toString(player.getPoint().y));
-
-
-                Log.d(TAG, "Player bottom: " + Integer.toString(playerRect.bottom));
-                Log.d(TAG, "Player top: " + Integer.toString(playerRect.top));
-                Log.d(TAG, "Player left: " + Integer.toString(playerRect.left));
-                Log.d(TAG, "Player right: " + Integer.toString(playerRect.right));
-
-                Log.d(TAG, Integer.toString(obs1.getPoint().y));
-
-                Log.d(TAG, Integer.toString(obs1.getRect().bottom));
-                Log.d(TAG, Integer.toString(obs1.getRect().top));
-
-                Log.d(TAG, Integer.toString(obs1.getRect().left));
-                Log.d(TAG, Integer.toString(obs1.getRect().right));
+                    Log.d(TAG, "Player y: " + Integer.toString(player.getPoint().y));
 
 
-                if(Rect.intersects(playerRect, obs1.getRect()))
+                    Log.d(TAG, "Player bottom: " + Integer.toString(playerRect.bottom));
+                    Log.d(TAG, "Player top: " + Integer.toString(playerRect.top));
+                    Log.d(TAG, "Player left: " + Integer.toString(playerRect.left));
+                    Log.d(TAG, "Player right: " + Integer.toString(playerRect.right));
+
+                    Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getPoint().y));
+
+                    Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getRect().bottom));
+                    Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getRect().top));
+
+                    Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getRect().left));
+                    Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getRect().right));
+
+
+                    if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect()))
+                        lose();
+                } else {
                     lose();
-            }else{
-                lose();
+                }
             }
         }
 

@@ -16,7 +16,12 @@ public class ObstaclePlatform extends Obstacle{
 
     public ObstaclePlatform(Point point) {
         super(point);
-        this.rect = new Rect(point.x + 50, point.y - 50, point.x - 50, point.y + 50);
+        this.halfWidth = 50;
+        this.rect = new Rect(point.x - halfWidth, point.y - halfWidth,
+                point.x + halfWidth, point.y + halfWidth);
+
+        //this.rect = new Rect(point.x + 50, point.y - 50, point.x - 50, point.y + 50);
+        this.xVel = -15;
         isPlatform = true;
 
     }
