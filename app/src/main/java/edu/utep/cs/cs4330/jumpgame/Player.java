@@ -28,6 +28,7 @@ public class Player {
     private Bitmap model;
     private final int PLAYER_GRAVITY = 4;
     private final int INITIAL_Y = 550;
+    private final int MAX_FALL_SPEED = 52;
 
     private int halfWidth;
     private Rect rect;
@@ -77,15 +78,20 @@ public class Player {
         this.model = BitmapFactory.decodeResource(context.getResources(), R.drawable.basic_square);
         rectColor = Color.rgb(0,0,255);
         this.point = point;
+        this.point.y = -2050;
         this.rect = new Rect(point.x - halfWidth, point.y - halfWidth,
                 point.x + halfWidth, point.y + halfWidth);
 
+        //this.rect = new Rect(point.x - halfWidth, 0,
+        //        point.x + halfWidth, 100);
+
         this.jumpBuffer = false;
         this.isJumping = false;
-        canJump = true;
+        isFalling = true;
+        canJump = false;
         this.xVel = 0;
         this.yVel = 0;
-        this.startingY = this.point.y;
+        this.startingY = point.y;
         //jumpTick = 0;
     }
 
@@ -142,7 +148,7 @@ public class Player {
             jump();
         }
 
-        if(isFalling){
+        if(isFalling && this.yVel < MAX_FALL_SPEED){
             this.yVel += PLAYER_GRAVITY;
         }
         prevYPos = this.point.y;

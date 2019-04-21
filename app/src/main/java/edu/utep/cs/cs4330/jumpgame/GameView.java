@@ -63,6 +63,11 @@ public class GameView extends SurfaceView implements Runnable {
 
         obstaclesOnScreen = new Obstacle[(screenSize.x / 100) + 2];
         numObsInArray = 0;
+
+        for(int i = 0; i < 19; i++){
+            obstaclesOnScreen[i] = new ObstaclePlatform(new Point(i*108, 650));
+            numObsInArray++;
+        }
         //obstaclesOnScreen = new LinkedList<>();
         levelObstacles = level1;
         levelCount = 0;
@@ -164,6 +169,7 @@ public class GameView extends SurfaceView implements Runnable {
         Rect playerRect = player.getRect();
         if(Rect.intersects(player.getRect(), floor.getFloorLine())) {
             player.collidedWithFloor();
+            lose();
         }
         for(int i = 0; i < numObsInArray; i++) {
             if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect())) {
@@ -172,7 +178,7 @@ public class GameView extends SurfaceView implements Runnable {
                 if (obstaclesOnScreen[i].getIsPlatform()) {
                     player.collidedWithPlatform(obstaclesOnScreen[i]);
 
-                    Log.d(TAG, "Player y: " + Integer.toString(player.getPoint().y));
+                    /*Log.d(TAG, "Player y: " + Integer.toString(player.getPoint().y));
 
 
                     Log.d(TAG, "Player bottom: " + Integer.toString(playerRect.bottom));
@@ -187,7 +193,7 @@ public class GameView extends SurfaceView implements Runnable {
 
                     Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getRect().left));
                     Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getRect().right));
-
+*/
 
                     if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect()))
                         lose();
