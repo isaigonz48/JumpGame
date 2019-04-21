@@ -23,7 +23,8 @@ public class GameView extends SurfaceView implements Runnable {
 
     private static String TAG = "GAMEVIEW";
 
-    final static int[] level1 = {2};
+    final static int[] level1 = {1,1,4,4,4,4,1,1,1,1,0,0,0,1,1,1,1,2,2,1,2,2,1,1,1,0,3,0,3,0,3,1,
+            1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
 
     private boolean isRunning;
     private Thread gameThread = null;
@@ -34,14 +35,16 @@ public class GameView extends SurfaceView implements Runnable {
 
     private Player player;
     private ObstacleFactory obstacleFactory;
-    private Queue<Obstacle> obstaclesOnScreen;
-    //private Obstacle[] obstaclesOnScreen;
+    //private Queue<Obstacle> obstaclesOnScreen;
+    private Obstacle[] obstaclesOnScreen;
+    private int numObsInArray;
     private Obstacle obs1;
     private Floor floor;
 
     private int[] levelObstacles;
-    private int count;
+    private int levelCount;
     private boolean lost;
+    private int frameTick;
 
     public GameView(Context context, Point screenSize){
         super(context);
@@ -50,18 +53,20 @@ public class GameView extends SurfaceView implements Runnable {
         paint = new Paint();
         canvas = new Canvas();
 
-        Point point = new Point(200,550);
+        Point point = new Point(200,650);
         player = new Player(context, point);
 
-        floor = new Floor(new Point(800, 600), screenSize.x);
+        floor = new Floor(new Point(800, 700), screenSize.x);
         //obs1 = new ObstacleSimpleSquare(context, new Point(1500, 550));
-        obs1 = new ObstaclePlatform(context, new Point(3000, 550));
+        obs1 = new ObstaclePlatform(context, new Point(3000, 650));
         obstacleFactory = new ObstacleFactory(screenSize.x);
 
-        //obstaclesOnScreen = new Obstacle[(screenSize.x / 100) + 2];
-        obstaclesOnScreen = new LinkedList<>();
+        obstaclesOnScreen = new Obstacle[(screenSize.x / 100) + 2];
+        numObsInArray = 0;
+        //obstaclesOnScreen = new LinkedList<>();
         levelObstacles = level1;
-        count = 0;
+        levelCount = 0;
+        frameTick = 0;
 
         lost = false;
     }
@@ -106,26 +111,43 @@ public class GameView extends SurfaceView implements Runnable {
         this.setOnClickListener(view -> player.bufferJump());
         player.update();
 
-        updateObstaclesOnScreen();
-
-        for(int i = 0; i < obstaclesOnScreen.length; i++){
+        if(frameTick == 7) {
+            updateObstaclesOnScreen();
+            frameTick = 0;
+        }
+        for(int i = 0; i < numObsInArray; i++){
             obstaclesOnScreen[i].update();
+        }
+        if(levelCount >= levelObstacles.length){
+            lose();
         }
         //obs1.update();
         floor.update();
         checkCollisions();
+        frameTick++;
 
     }
 
     private void updateObstaclesOnScreen(){
-        if(obstaclesOnScreen.peek().getPoint().x < -50){
+        /*if(obstaclesOnScreen.peek().getPoint().x < -50){
             obstaclesOnScreen.remove();
         }
         if(levelObstacles[count] > 0){
             obstaclesOnScreen.add(obstacleFactory.createObstacle(levelObstacles[count]));
+        }*/
+
+        if(numObsInArray > 0 && obstaclesOnScreen[0].getPoint().x < -50){
+            for(int i = 0; i < obstaclesOnScreen.length -1; i++){
+                obstaclesOnScreen[i] = obstaclesOnScreen[i+1];
+            }
+            numObsInArray--;
+        }
+        if(!(levelCount >= levelObstacles.length) && levelObstacles[levelCount] > 0){
+            obstaclesOnScreen[numObsInArray] = obstacleFactory.createObstacle(levelObstacles[levelCount]);
+            numObsInArray++;
         }
 
-        count++;
+        levelCount++;
 
     }
 
@@ -143,9 +165,10 @@ public class GameView extends SurfaceView implements Runnable {
         if(Rect.intersects(player.getRect(), floor.getFloorLine())) {
             player.collidedWithFloor();
         }
-        for(int i = 0; i < obstaclesOnScreen.length; i++) {
+        for(int i = 0; i < numObsInArray; i++) {
             if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect())) {
                 //if(myCollision(playerRect, obs1.getRect())){
+                //obstaclesOnScreen.
                 if (obstaclesOnScreen[i].getIsPlatform()) {
                     player.collidedWithPlatform(obstaclesOnScreen[i]);
 
@@ -225,7 +248,10 @@ public class GameView extends SurfaceView implements Runnable {
             canvas = surfaceHolder.lockCanvas();
             canvas.drawColor(Color.rgb(255, 255, 255));
             player.draw(canvas);
-            obs1.draw(canvas);
+            for(int i = 0; i < numObsInArray; i++){
+                obstaclesOnScreen[i].draw(canvas);
+            }
+            //obs1.draw(canvas);
             floor.draw(canvas);
             surfaceHolder.unlockCanvasAndPost(canvas);
         }

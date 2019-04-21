@@ -4,6 +4,7 @@ import android.graphics.Point;
 
 public class ObstacleFactory {
     private int screenWidth;
+    private static int currentHeight;
 
     enum ObstacleType{
         PLATFORM_SAME_HEIGHT,
@@ -12,22 +13,29 @@ public class ObstacleFactory {
     }
     public ObstacleFactory(int screenWidth){
         this.screenWidth = screenWidth;
+        currentHeight = 650;
     }
 
     public Obstacle createObstacle(int selection){
         Obstacle obs;
         switch(selection){
-            ///// Platform on same level
+            ///// Platform on same height
             case 1:
-                obs = new ObstaclePlatform(new Point(screenWidth + 50,550));
+                obs = new ObstaclePlatform(new Point(screenWidth + 50,currentHeight));
                 return obs;
             ///// Platform one square up
             case 2:
-                obs = new ObstaclePlatform(new Point(screenWidth + 50,550));
+                currentHeight -= 100;
+                obs = new ObstaclePlatform(new Point(screenWidth + 50,currentHeight));
                 return obs;
             ///// Platform one square down
             case 3:
-                obs = new ObstaclePlatform(new Point(screenWidth + 50,550));
+                currentHeight += 100;
+                obs = new ObstaclePlatform(new Point(screenWidth + 50,currentHeight));
+                return obs;
+            ///// Not platform same height
+            case 4:
+                obs = new ObstacleSimpleSquare(new Point(screenWidth + 50,currentHeight));
                 return obs;
 
             default:

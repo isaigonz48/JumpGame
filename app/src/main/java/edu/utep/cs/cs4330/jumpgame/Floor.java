@@ -19,7 +19,7 @@ public class Floor {
 
     public Floor(){
         this.thickness = 10;
-        floorColor = Color.rgb(255,0,255);
+        floorColor = Color.rgb(255,0,0);
         this.point = new Point(800, 605);
         this.floorLine = new Rect(0, point.y,
                 1600, point.y + thickness);
@@ -29,7 +29,7 @@ public class Floor {
 
     public Floor(Point point, int screenWidth){
         this.thickness = 10;
-        floorColor = Color.rgb(255,0,255);
+        floorColor = Color.rgb(255,0,0);
         this.point = point;
         this.floorLine = new Rect(0, point.y,
                 screenWidth, point.y + thickness);

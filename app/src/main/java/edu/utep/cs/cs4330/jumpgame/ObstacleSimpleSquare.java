@@ -2,6 +2,7 @@ package edu.utep.cs.cs4330.jumpgame;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -16,7 +17,12 @@ public class ObstacleSimpleSquare extends Obstacle {
 
     public ObstacleSimpleSquare(Point point) {
         super(point);
-        this.rect = new Rect(point.x + 50, point.y - 50, point.x - 50, point.y + 50);
+        this.halfWidth = 50;
+        this.color = Color.rgb(255,0,0);
+        this.rect = new Rect(point.x - halfWidth, point.y - halfWidth,
+                point.x + halfWidth, point.y + halfWidth);
+
+        this.xVel = -15;
 
     }
 
@@ -27,7 +33,7 @@ public class ObstacleSimpleSquare extends Obstacle {
                 point.x + halfWidth, point.y + halfWidth);
 
         //this.rect = new Rect(point.x + 50, point.y - 50, point.x - 50, point.y + 50);
-        this.xVel = -10;
+        this.xVel = -15;
     }
 
     @Override

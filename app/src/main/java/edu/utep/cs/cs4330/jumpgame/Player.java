@@ -38,6 +38,7 @@ public class Player {
     private boolean jumpBuffer;
     private boolean isJumping;
     private boolean isFalling;
+    private boolean canJump;
     private int xVel;
     private int yVel;
 
@@ -54,6 +55,7 @@ public class Player {
         this.point = new Point(0,0);
         this.jumpBuffer = false;
         this.isJumping = false;
+
         this.xVel = 0;
         this.yVel = 0;
     }
@@ -73,13 +75,14 @@ public class Player {
     public Player(Context context, Point point){
         this.halfWidth = 50;
         this.model = BitmapFactory.decodeResource(context.getResources(), R.drawable.basic_square);
-        rectColor = Color.rgb(255,0,0);
+        rectColor = Color.rgb(0,0,255);
         this.point = point;
         this.rect = new Rect(point.x - halfWidth, point.y - halfWidth,
                 point.x + halfWidth, point.y + halfWidth);
 
         this.jumpBuffer = false;
         this.isJumping = false;
+        canJump = true;
         this.xVel = 0;
         this.yVel = 0;
         this.startingY = this.point.y;
@@ -128,14 +131,18 @@ public class Player {
     }
 
     public void update(){
-        if(!isJumping && !isFalling) {
+        //if(!isJumping && !isFalling) {
+        if(canJump){
             if(this.jumpBuffer) {
                 yVel = -52;
                 isJumping = true;
+                canJump = false;
             }
         }else if(isJumping){
             jump();
-        }else if(isFalling){
+        }
+
+        if(isFalling){
             this.yVel += PLAYER_GRAVITY;
         }
         prevYPos = this.point.y;
@@ -158,7 +165,7 @@ public class Player {
     private void jump(){
         //if(jumpTick++ > 3)
           //  jumpTick = 0;
-
+        //canJump = false;
         this.yVel += PLAYER_GRAVITY;
         //this.model = BitmapFactory.decodeResource(this.context.getResources(), jumpAnimation[jumpTick]);
         if(this.yVel <= 0){//this.point.y == INITIAL_Y) {
@@ -179,10 +186,12 @@ public class Player {
         //this.rect.right = point.x+halfWidth;
         this.rect.bottom = point.y+halfWidth;
         isFalling = false;
+        canJump = true;
     }
 
     public void collidedWithPlatform(Obstacle o){
-        point.y = (o.getRect().top-1)-halfWidth;
+        if(prevYPos <= o.getPoint().y - 50)
+            point.y = (o.getRect().top-1)-halfWidth;
         yVel = 0;
 
         //this.rect.left = point.x-halfWidth;
@@ -190,6 +199,7 @@ public class Player {
         //this.rect.right = point.x+halfWidth;
         this.rect.bottom = point.y+halfWidth;
         //isFalling = false;
+        canJump = true;
 
 
     }
