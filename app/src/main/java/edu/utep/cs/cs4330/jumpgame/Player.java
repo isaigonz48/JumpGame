@@ -140,7 +140,7 @@ public class Player {
         //if(!isJumping && !isFalling) {
         if(canJump){
             if(this.jumpBuffer) {
-                yVel = -52;
+                yVel = -48;
                 isJumping = true;
                 canJump = false;
             }

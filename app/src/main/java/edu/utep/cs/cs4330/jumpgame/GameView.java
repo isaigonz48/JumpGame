@@ -23,7 +23,8 @@ public class GameView extends SurfaceView implements Runnable {
 
     private static String TAG = "GAMEVIEW";
 
-    final static int[] level1 = {1,1,4,4,4,4,1,1,1,1,0,0,0,1,1,1,1,2,2,1,2,2,1,1,1,0,3,0,3,0,3,1,
+    final static int[] level1 = {1,1,1,1,1,0,0,2,0,0,2,0,0,1,1,1,0,0,3,0,2,0,0,1,0,0,3,0,0,3,1,1,1,
+            1,4,1,1,1,4,4,1,1,5,1,1,1,1,1,
             1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
 
     private boolean isRunning;
@@ -82,7 +83,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         while(isRunning){
             try{
-                gameThread.sleep(5);
+                gameThread.sleep(1);
             }catch(InterruptedException e){}
             update();
             draw();

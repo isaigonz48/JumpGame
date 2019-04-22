@@ -38,6 +38,10 @@ public class ObstacleFactory {
                 obs = new ObstacleSimpleSquare(new Point(screenWidth + 50,currentHeight));
                 return obs;
 
+            case 5:
+                obs = new ObstacleSimpleSquare(new Point(screenWidth + 50,currentHeight-100));
+                return obs;
+
             default:
                 return new Obstacle();
 
