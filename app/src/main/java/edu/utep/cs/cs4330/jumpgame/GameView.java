@@ -127,13 +127,6 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void updateObstaclesOnScreen(){
-        /*if(obstaclesOnScreen.peek().getPoint().x < -50){
-            obstaclesOnScreen.remove();
-        }
-        if(levelObstacles[count] > 0){
-            obstaclesOnScreen.add(obstacleFactory.createObstacle(levelObstacles[count]));
-        }*/
-
         if(numObsInArray > 0 && obstaclesOnScreen[0].getPoint().x < -50){
             for(int i = 0; i < obstaclesOnScreen.length -1; i++){
                 obstaclesOnScreen[i] = obstaclesOnScreen[i+1];

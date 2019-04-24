@@ -10,13 +10,11 @@ import android.graphics.Point;
 import android.graphics.Rect;
 
 public class Player {
-
+    ///// Not used yet
     private static final String NORMAL_PLAYER = "basic_square";
     private static final String ROTATE_ANIMATION_1 = "basic_square_rotate1";
     private static final String ROTATE_ANIMATION_2 = "basic_square_rotate2";
     private static final String ROTATE_ANIMATION_3 = "basic_square_rotate3";
-
-
 
     //private final int[] jumpAnimation = {R.drawable.basic_square, R.drawable.basic_square_rotate1, R.drawable.basic_square_rotate2, R.drawable.basic_square_rotate3};
 

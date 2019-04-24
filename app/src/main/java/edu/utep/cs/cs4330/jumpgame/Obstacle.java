@@ -24,7 +24,6 @@ public class Obstacle {
 
         color = Color.rgb(0,0,0);
         this.point = new Point(0,0);
-       // new Po
         this.xVel = -25;
         this.yVel = 0;
         isPlatform = false;
