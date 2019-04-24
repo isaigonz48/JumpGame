@@ -47,19 +47,11 @@ public class ObstacleSimpleSquare extends Obstacle {
     @Override
     public void update() {
         super.update();
-        //this.rect.set(this.point.x-halfWidth,this.point.y+halfWidth,
-          //      this.point.x+halfWidth, this.point.y-halfWidth);
-        //this.rect.set(this.point.x-halfWidth,this.point.y+halfWidth,
-          //      this.point.x+halfWidth, this.point.y-halfWidth);
 
         this.rect.left = point.x-halfWidth;
         this.rect.top = point.y-halfWidth;
         this.rect.right = point.x+halfWidth;
         this.rect.bottom = point.y+halfWidth;
-
-        //Log.d("OBSUPDATE", ("" + this.rect.left));
-
-
     }
 
     public Rect getRect(){

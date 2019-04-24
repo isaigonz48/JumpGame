@@ -8,11 +8,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
-import android.support.constraint.solver.widgets.Rectangle;
-
-import java.util.Vector;
-
 
 public class Player {
 

@@ -8,26 +8,20 @@ import android.graphics.Point;
 import android.graphics.Rect;
 
 public class Obstacle {
-    //private Bitmap model;
-    //private final int PLAYER_GRAVITY = 5;
-    //private final int INITIAL_Y = 550;
+
 
     protected Rect rect;
-    //private int rectColor;
     protected Point point;
     protected int color;
 
-    //private boolean jumpBuffer;
-    //private boolean isJumping;
     protected int xVel;
     protected int yVel;
-    //protected double xVel;
 
     protected boolean isPlatform;
 
 
     public Obstacle(){
-        //this.rect = new Rect(100,500,200,600);
+
         color = Color.rgb(0,0,0);
         this.point = new Point(0,0);
        // new Po

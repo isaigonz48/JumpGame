@@ -83,21 +83,13 @@ public class GameView extends SurfaceView implements Runnable {
 
         while(isRunning){
             try{
-                gameThread.sleep(1);
+                gameThread.sleep(10);
             }catch(InterruptedException e){}
             update();
             draw();
 
         }
     }
-    /*@Override
-    public boolean performClick() {
-        player.bufferJump();
-
-        return super.performClick();
-
-    }*/
-
 
     private void update(){
         this.setOnTouchListener(new OnTouchListener() {
@@ -203,42 +195,8 @@ public class GameView extends SurfaceView implements Runnable {
                 }
             }
         }
-
-
-     /*   //Rect.intersects(player.getRect(),obs1.getRect())){
-        if(obs1.getIsPlatform()){
-            //if()
-            player.collidedWithPlatform(obs1);
-
-        }else{
-            //if();
-            ///// left top right bottom
-            //player.getRectangle().intersects(obs1.getRect().left,obs1.getRect().top,obs1.getRect().right,obs1.getRect().bottom);
-            lose();
-            //player.setX(-100);
-            //Log.d("GAMEUPDATE", "lost");
-        }
-    }*/
     }
 
-    private boolean myCollision(Rect r1, Rect r2){
-        if(r1.top <= r2.bottom && r1.bottom >= r2.top
-                    && r1.left <= r2.right && r1.right >= r2.left)
-            return true;
-
-        return false;
-    }
-
-    private boolean directHit(Obstacle o){
-        //player.getRect().
-        Rect playerRect = player.getRect();
-        Rect obsRect = o.getRect();
-        if(playerRect.right > obsRect.left
-                && playerRect.bottom > obsRect.top)
-            return true;
-
-        return false;
-    }
     private void lose(){
         isRunning = false;
         lost = true;
