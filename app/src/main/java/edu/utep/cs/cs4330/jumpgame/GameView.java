@@ -41,6 +41,7 @@ public class GameView extends SurfaceView implements Runnable {
     private int numObsInArray;
     private Obstacle obs1;
     private Floor floor;
+    private Floor floor2;
 
     private int[] levelObstacles;
     private int levelCount;
@@ -54,10 +55,12 @@ public class GameView extends SurfaceView implements Runnable {
         paint = new Paint();
         canvas = new Canvas();
 
-        Point point = new Point(200,650);
+        Point point = new Point(200,((screenSize.y - screenSize.y/10) -152));
         player = new Player(context, point);
 
-        floor = new Floor(new Point(800, 700), screenSize.x);
+        floor = new Floor(new Point(800, screenSize.y - screenSize.y/10), screenSize.x);
+        floor2 = new Floor(new Point(800, screenSize.y/10), screenSize.x);
+
         //obs1 = new ObstacleSimpleSquare(context, new Point(1500, 550));
         obs1 = new ObstaclePlatform(context, new Point(3000, 650));
         obstacleFactory = new ObstacleFactory(screenSize.x);
@@ -66,7 +69,7 @@ public class GameView extends SurfaceView implements Runnable {
         numObsInArray = 0;
 
         for(int i = 0; i < 19; i++){
-            obstaclesOnScreen[i] = new ObstaclePlatform(new Point(i*108, 650));
+            obstaclesOnScreen[i] = new ObstaclePlatform(new Point(i*108, ((screenSize.y - screenSize.y/10) -51)));
             numObsInArray++;
         }
         //obstaclesOnScreen = new LinkedList<>();
@@ -153,7 +156,7 @@ public class GameView extends SurfaceView implements Runnable {
         //Log.d("GAMEUPDATE", "lost");
 
         Rect playerRect = player.getRect();
-        if(Rect.intersects(player.getRect(), floor.getFloorLine())) {
+        if(Rect.intersects(player.getRect(), floor.getFloorLine()) || Rect.intersects(playerRect, floor2.getFloorLine())) {
             player.collidedWithFloor();
             lose();
         }
@@ -211,6 +214,7 @@ public class GameView extends SurfaceView implements Runnable {
             }
             //obs1.draw(canvas);
             floor.draw(canvas);
+            floor2.draw(canvas);
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
     }

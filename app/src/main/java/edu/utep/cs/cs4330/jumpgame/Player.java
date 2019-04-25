@@ -8,9 +8,15 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.util.Log;
+
+import static java.lang.Math.abs;
 
 public class Player {
+
+    private static final String TAG = "PLAYERLOG";
     ///// Not used yet
+
     private static final String NORMAL_PLAYER = "basic_square";
     private static final String ROTATE_ANIMATION_1 = "basic_square_rotate1";
     private static final String ROTATE_ANIMATION_2 = "basic_square_rotate2";
@@ -29,6 +35,7 @@ public class Player {
     private Point point;
     private Context context;
 
+    private int playerGravity;
     private boolean jumpBuffer;
     private boolean isJumping;
     private boolean isFalling;
@@ -71,7 +78,7 @@ public class Player {
         this.model = BitmapFactory.decodeResource(context.getResources(), R.drawable.basic_square);
         rectColor = Color.rgb(0,0,255);
         this.point = point;
-        this.point.y = -2050;
+        //this.point.y = -2050;
         this.rect = new Rect(point.x - halfWidth, point.y - halfWidth,
                 point.x + halfWidth, point.y + halfWidth);
 
@@ -80,11 +87,12 @@ public class Player {
 
         this.jumpBuffer = false;
         this.isJumping = false;
-        isFalling = true;
-        canJump = false;
+        isFalling = false;
+        canJump = true;
         this.xVel = 0;
         this.yVel = 0;
         this.startingY = point.y;
+        playerGravity = 4;
         //jumpTick = 0;
     }
 
@@ -133,15 +141,19 @@ public class Player {
         //if(!isJumping && !isFalling) {
         if(canJump){
             if(this.jumpBuffer) {
-                yVel = -48;
-                isJumping = true;
+                Log.d(TAG, "Jump!");
+                playerGravity = -playerGravity;
+                //yVel = -48;
+                //isJumping = true;
+                isFalling = true;
                 canJump = false;
             }
         }else if(isJumping){
-            jump();
+            //jump();
+            this.yVel += playerGravity;
         }
 
-        if(isFalling && this.yVel < MAX_FALL_SPEED){
+        if(isFalling && abs(this.yVel) < MAX_FALL_SPEED){
             this.yVel += PLAYER_GRAVITY;
         }
         prevYPos = this.point.y;
