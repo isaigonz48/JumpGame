@@ -72,6 +72,10 @@ public class Obstacle {
         return this.rect;
     }
 
+    public Rect getRect(int i){
+        return this.rect;
+    }
+
     public int getNumRects(){
         return this.numRects;
     }

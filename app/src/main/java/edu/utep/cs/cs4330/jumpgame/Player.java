@@ -143,7 +143,7 @@ public class Player {
             if(this.jumpBuffer) {
                 Log.d(TAG, "Jump!");
                 playerGravity = -playerGravity;
-                Log.d(TAG, Integer.toString(playerGravity));
+                //Log.d(TAG, Integer.toString(playerGravity));
 
                 //yVel = -48;
                 //isJumping = true;

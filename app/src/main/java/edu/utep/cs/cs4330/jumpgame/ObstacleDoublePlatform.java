@@ -16,7 +16,7 @@ public class ObstacleDoublePlatform extends Obstacle {
 
     public ObstacleDoublePlatform(Point point, Point point2) {
         super(point);
-        this.point2 = point2
+        this.point2 = point2;
 
         this.halfWidth = 50;
         this.rect = new Rect(point.x - halfWidth, point.y - halfWidth,
@@ -33,7 +33,7 @@ public class ObstacleDoublePlatform extends Obstacle {
 
     public ObstacleDoublePlatform(Context context, Point point, Point point2) {
         super(context, point);
-        this.point2 = point2
+        this.point2 = point2;
         this.halfWidth = 50;
         this.rect = new Rect(point.x - halfWidth, point.y - halfWidth,
                 point.x + halfWidth, point.y + halfWidth);
@@ -72,10 +72,10 @@ public class ObstacleDoublePlatform extends Obstacle {
         this.rect.top = point.y-halfWidth;
         this.rect.right = point.x+halfWidth;
         this.rect.bottom = point.y+halfWidth;
-        this.rect2.left = point.x-halfWidth;
-        this.rect2.top = point.y-halfWidth;
-        this.rect2.right = point.x+halfWidth;
-        this.rect2.bottom = point.y+halfWidth;
+        this.rect2.left = point2.x-halfWidth;
+        this.rect2.top = point2.y-halfWidth;
+        this.rect2.right = point2.x+halfWidth;
+        this.rect2.bottom = point2.y+halfWidth;
 
         //Log.d("OBSUPDATE", ("" + this.rect.left));
 

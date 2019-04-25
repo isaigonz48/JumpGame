@@ -23,8 +23,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private static String TAG = "GAMEVIEW";
 
-    final static int[] level1 = {1,1,1,1,1,0,0,2,0,0,2,0,0,1,1,1,0,0,3,0,2,0,0,1,0,0,3,0,0,3,1,1,1,
-            1,4,1,1,1,4,4,1,1,5,1,1,1,1,1,
+    final static int[] level1 = {1,1,1,1,1,1,6,6,6,6,6,6,6,6,1,1,1,1,1,1,1,1,1,1,1,
             1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
 
     private boolean isRunning;
@@ -65,7 +64,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         //obs1 = new ObstacleSimpleSquare(context, new Point(1500, 550));
         //obs1 = new ObstaclePlatform(context, new Point(3000, 650));
-        obstacleFactory = new ObstacleFactory(screenSize.x);
+        obstacleFactory = new ObstacleFactory(screenSize.x, screenSize.y);
 
         obstaclesOnScreen = new Obstacle[(screenSize.x / 100) + 2];
         numObsInArray = 0;
@@ -91,7 +90,10 @@ public class GameView extends SurfaceView implements Runnable {
                 gameThread.sleep(10);
             }catch(InterruptedException e){}
             update();
+            Log.d(TAG, "No crash in update");
+
             draw();
+            Log.d(TAG, "No crash in draw");
 
         }
     }
@@ -158,71 +160,39 @@ public class GameView extends SurfaceView implements Runnable {
         //Log.d("GAMEUPDATE", "lost");
 
         Rect playerRect = player.getRect();
+        ///// FIX ME
         if(Rect.intersects(player.getRect(), floor.getFloorLine()) || Rect.intersects(playerRect, floor2.getFloorLine())) {
-            player.collidedWithFloor();
+            player.collidedWithFloor(floor);
             lose();
         }
         for(int i = 0; i < numObsInArray; i++) {
             if(obstaclesOnScreen[i].getNumRects() > 1){
+                Log.d(TAG, "A double");
                 for(int j = 1; j <= obstaclesOnScreen[i].getNumRects(); j++){
                     if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect(j))) {
                         //if(myCollision(playerRect, obs1.getRect())){
                         //obstaclesOnScreen.
                         if (obstaclesOnScreen[i].getIsPlatform()) {
                             player.collidedWithPlatform(obstaclesOnScreen[i]);
-
-                    /*Log.d(TAG, "Player y: " + Integer.toString(player.getPoint().y));
-
-
-                    Log.d(TAG, "Player bottom: " + Integer.toString(playerRect.bottom));
-                    Log.d(TAG, "Player top: " + Integer.toString(playerRect.top));
-                    Log.d(TAG, "Player left: " + Integer.toString(playerRect.left));
-                    Log.d(TAG, "Player right: " + Integer.toString(playerRect.right));
-
-                    Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getPoint().y));
-
-                    Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getRect().bottom));
-                    Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getRect().top));
-
-                    Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getRect().left));
-                    Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getRect().right));
-*/
-
-                            if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect()))
+                            if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect(j)))
                                 lose();
                         } else {
                             lose();
                         }
                     }
                 }
-            }
-            if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect())) {
-                //if(myCollision(playerRect, obs1.getRect())){
-                //obstaclesOnScreen.
-                if (obstaclesOnScreen[i].getIsPlatform()) {
-                    player.collidedWithPlatform(obstaclesOnScreen[i]);
-
-                    /*Log.d(TAG, "Player y: " + Integer.toString(player.getPoint().y));
-
-
-                    Log.d(TAG, "Player bottom: " + Integer.toString(playerRect.bottom));
-                    Log.d(TAG, "Player top: " + Integer.toString(playerRect.top));
-                    Log.d(TAG, "Player left: " + Integer.toString(playerRect.left));
-                    Log.d(TAG, "Player right: " + Integer.toString(playerRect.right));
-
-                    Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getPoint().y));
-
-                    Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getRect().bottom));
-                    Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getRect().top));
-
-                    Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getRect().left));
-                    Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getRect().right));
-*/
-
-                    if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect()))
+            }else{
+                Log.d(TAG, "Not double");
+                if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect())) {
+                    //if(myCollision(playerRect, obs1.getRect())){
+                    //obstaclesOnScreen.
+                    if (obstaclesOnScreen[i].getIsPlatform()) {
+                        player.collidedWithPlatform(obstaclesOnScreen[i]);
+                        if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect()))
+                            lose();
+                    } else {
                         lose();
-                } else {
-                    lose();
+                    }
                 }
             }
         }
@@ -249,6 +219,8 @@ public class GameView extends SurfaceView implements Runnable {
                     obstaclesOnScreen[i].draw(canvas);
                 //}
             }
+            //Log.d(TAG, "No crash in draw");
+
             //obs1.draw(canvas);
             floor.draw(canvas);
             floor2.draw(canvas);
