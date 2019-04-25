@@ -55,14 +55,16 @@ public class GameView extends SurfaceView implements Runnable {
         paint = new Paint();
         canvas = new Canvas();
 
-        Point point = new Point(200,((screenSize.y - screenSize.y/10) -152));
+        //Point point = new Point(200,((screenSize.y - screenSize.y/10) -152));
+        Point point = new Point(200,800);
+
         player = new Player(context, point);
 
         floor = new Floor(new Point(800, screenSize.y - screenSize.y/10), screenSize.x);
         floor2 = new Floor(new Point(800, screenSize.y/10), screenSize.x);
 
         //obs1 = new ObstacleSimpleSquare(context, new Point(1500, 550));
-        obs1 = new ObstaclePlatform(context, new Point(3000, 650));
+        //obs1 = new ObstaclePlatform(context, new Point(3000, 650));
         obstacleFactory = new ObstacleFactory(screenSize.x);
 
         obstaclesOnScreen = new Obstacle[(screenSize.x / 100) + 2];
@@ -161,6 +163,39 @@ public class GameView extends SurfaceView implements Runnable {
             lose();
         }
         for(int i = 0; i < numObsInArray; i++) {
+            if(obstaclesOnScreen[i].getNumRects() > 1){
+                for(int j = 1; j <= obstaclesOnScreen[i].getNumRects(); j++){
+                    if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect(j))) {
+                        //if(myCollision(playerRect, obs1.getRect())){
+                        //obstaclesOnScreen.
+                        if (obstaclesOnScreen[i].getIsPlatform()) {
+                            player.collidedWithPlatform(obstaclesOnScreen[i]);
+
+                    /*Log.d(TAG, "Player y: " + Integer.toString(player.getPoint().y));
+
+
+                    Log.d(TAG, "Player bottom: " + Integer.toString(playerRect.bottom));
+                    Log.d(TAG, "Player top: " + Integer.toString(playerRect.top));
+                    Log.d(TAG, "Player left: " + Integer.toString(playerRect.left));
+                    Log.d(TAG, "Player right: " + Integer.toString(playerRect.right));
+
+                    Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getPoint().y));
+
+                    Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getRect().bottom));
+                    Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getRect().top));
+
+                    Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getRect().left));
+                    Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getRect().right));
+*/
+
+                            if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect()))
+                                lose();
+                        } else {
+                            lose();
+                        }
+                    }
+                }
+            }
             if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect())) {
                 //if(myCollision(playerRect, obs1.getRect())){
                 //obstaclesOnScreen.
@@ -210,7 +245,9 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawColor(Color.rgb(255, 255, 255));
             player.draw(canvas);
             for(int i = 0; i < numObsInArray; i++){
-                obstaclesOnScreen[i].draw(canvas);
+                //for(int j = 0; j < obstaclesOnScreen[i].getNumRects; j++) {
+                    obstaclesOnScreen[i].draw(canvas);
+                //}
             }
             //obs1.draw(canvas);
             floor.draw(canvas);

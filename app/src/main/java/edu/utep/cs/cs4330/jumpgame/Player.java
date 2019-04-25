@@ -87,8 +87,8 @@ public class Player {
 
         this.jumpBuffer = false;
         this.isJumping = false;
-        isFalling = false;
-        canJump = true;
+        //isFalling = true;//false;
+        canJump = false;//true;
         this.xVel = 0;
         this.yVel = 0;
         this.startingY = point.y;
@@ -143,18 +143,20 @@ public class Player {
             if(this.jumpBuffer) {
                 Log.d(TAG, "Jump!");
                 playerGravity = -playerGravity;
+                Log.d(TAG, Integer.toString(playerGravity));
+
                 //yVel = -48;
                 //isJumping = true;
-                isFalling = true;
+                //isFalling = true;
                 canJump = false;
             }
-        }else if(isJumping){
-            //jump();
-            this.yVel += playerGravity;
         }
 
-        if(isFalling && abs(this.yVel) < MAX_FALL_SPEED){
-            this.yVel += PLAYER_GRAVITY;
+        if(abs(this.yVel) < MAX_FALL_SPEED){
+            //Log.d(TAG, "Adding vel");
+            //this.yVel += PLAYER_GRAVITY;
+            this.yVel += playerGravity;
+            //Log.d(TAG, Integer.toString(yVel));
         }
         prevYPos = this.point.y;
 
@@ -187,8 +189,9 @@ public class Player {
         }
     }
 
-    public void collidedWithFloor(){
+    public void collidedWithFloor(Floor f){
         point.y = startingY;//prevYPos;
+
         yVel = 0;
 
 
@@ -203,6 +206,8 @@ public class Player {
     public void collidedWithPlatform(Obstacle o){
         if(prevYPos <= o.getPoint().y - 50)
             point.y = (o.getRect().top-1)-halfWidth;
+        else if(prevYPos >= o.getPoint().y + 50)
+            point.y = (o.getRect().bottom+1)+halfWidth;
         yVel = 0;
 
         //this.rect.left = point.x-halfWidth;

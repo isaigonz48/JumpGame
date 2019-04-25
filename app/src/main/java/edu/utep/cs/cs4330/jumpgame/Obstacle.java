@@ -18,6 +18,7 @@ public class Obstacle {
     protected int yVel;
 
     protected boolean isPlatform;
+    protected int numRects;
 
 
     public Obstacle(){
@@ -27,6 +28,7 @@ public class Obstacle {
         this.xVel = -25;
         this.yVel = 0;
         isPlatform = false;
+        numRects = 1;
     }
 
     public Obstacle(Point point){
@@ -35,6 +37,7 @@ public class Obstacle {
         this.color = Color.rgb(0,0,0);
         this.point = point;
         isPlatform = false;
+        numRects = 1;
     }
 
     public Obstacle(Context context, Point point){
@@ -43,6 +46,7 @@ public class Obstacle {
         this.color = Color.rgb(0,0,0);
         this.point = point;
         isPlatform = false;
+        numRects = 1;
     }
 
     public Obstacle(int color, Point point){
@@ -66,6 +70,10 @@ public class Obstacle {
 
     public Rect getRect(){
         return this.rect;
+    }
+
+    public int getNumRects(){
+        return this.numRects;
     }
 
     public boolean getIsPlatform(){
