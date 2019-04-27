@@ -61,6 +61,7 @@ public class ObstacleFactory {
                 obs = new ObstacleDoublePlatform(new Point(screenWidth + 50, currentHeight),
                         new Point(screenWidth + 50, oppositeHeight));
                 Log.d(TAG, "No crash here");
+                return obs;
             default:
                 return new Obstacle();
 

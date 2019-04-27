@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.Display;
 import android.view.MotionEvent;
@@ -23,7 +24,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private static String TAG = "GAMEVIEW";
 
-    final static int[] level1 = {1,1,1,1,1,1,6,6,6,6,6,6,6,6,1,1,1,1,1,1,1,1,1,1,1,
+    final static int[] level1 = {1,1,1,1,1,1,1,6,6,6,6,6,6,6,6,1,1,1,1,1,1,1,1,1,1,1,
             1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
 
     private boolean isRunning;
@@ -46,6 +47,8 @@ public class GameView extends SurfaceView implements Runnable {
     private int levelCount;
     private boolean lost;
     private int frameTick;
+
+    private MediaPlayer mediaPlayer;
 
     public GameView(Context context, Point screenSize){
         super(context);
@@ -79,6 +82,8 @@ public class GameView extends SurfaceView implements Runnable {
         frameTick = 0;
 
         lost = false;
+        mediaPlayer = MediaPlayer.create(context, R.raw.bgmusic);
+        mediaPlayer.start();
     }
 
     @Override
@@ -90,10 +95,10 @@ public class GameView extends SurfaceView implements Runnable {
                 gameThread.sleep(10);
             }catch(InterruptedException e){}
             update();
-            Log.d(TAG, "No crash in update");
+            //Log.d(TAG, "No crash in update");
 
             draw();
-            Log.d(TAG, "No crash in draw");
+            //Log.d(TAG, "No crash in draw");
 
         }
     }
@@ -128,6 +133,7 @@ public class GameView extends SurfaceView implements Runnable {
         }
         //obs1.update();
         floor.update();
+        //Log.d(TAG, "about to collide");
         checkCollisions();
         frameTick++;
 
@@ -144,7 +150,7 @@ public class GameView extends SurfaceView implements Runnable {
             obstaclesOnScreen[numObsInArray] = obstacleFactory.createObstacle(levelObstacles[levelCount]);
             numObsInArray++;
         }
-
+        //Log.d(TAG, Integer.toString(levelCount));
         levelCount++;
 
     }
@@ -166,14 +172,15 @@ public class GameView extends SurfaceView implements Runnable {
             lose();
         }
         for(int i = 0; i < numObsInArray; i++) {
+            //Log.d(TAG, "Wait a minuto");
             if(obstaclesOnScreen[i].getNumRects() > 1){
-                Log.d(TAG, "A double");
+                //Log.d(TAG, "A double");
                 for(int j = 1; j <= obstaclesOnScreen[i].getNumRects(); j++){
                     if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect(j))) {
                         //if(myCollision(playerRect, obs1.getRect())){
                         //obstaclesOnScreen.
                         if (obstaclesOnScreen[i].getIsPlatform()) {
-                            player.collidedWithPlatform(obstaclesOnScreen[i]);
+                            player.collidedWithPlatform(obstaclesOnScreen[i].getRect(j));
                             if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect(j)))
                                 lose();
                         } else {
@@ -182,7 +189,8 @@ public class GameView extends SurfaceView implements Runnable {
                     }
                 }
             }else{
-                Log.d(TAG, "Not double");
+                Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getNumRects()));
+                //Log.d(TAG, "Not double");
                 if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect())) {
                     //if(myCollision(playerRect, obs1.getRect())){
                     //obstaclesOnScreen.
@@ -230,6 +238,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void pause(){
         isRunning = false;
+        mediaPlayer.pause();
         try{
             gameThread.join();
         }catch(InterruptedException e){}
@@ -239,6 +248,7 @@ public class GameView extends SurfaceView implements Runnable {
         isRunning = true;
         gameThread = new Thread(this);
         gameThread.start();
+        mediaPlayer.start();
         //run();
     }
 }

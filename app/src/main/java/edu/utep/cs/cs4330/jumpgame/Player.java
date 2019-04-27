@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+
 import android.util.Log;
 
 import static java.lang.Math.abs;
@@ -47,6 +48,7 @@ public class Player {
     private int prevYPos;
     //private short jumpTick;
     private int startingY;
+
 
 
     public Player(){
@@ -205,9 +207,25 @@ public class Player {
 
     public void collidedWithPlatform(Obstacle o){
         if(prevYPos <= o.getPoint().y - 50)
-            point.y = (o.getRect().top-1)-halfWidth;
+            point.y = (o.getRect().top)-halfWidth;
         else if(prevYPos >= o.getPoint().y + 50)
             point.y = (o.getRect().bottom+1)+halfWidth;
+        yVel = 0;
+
+        //this.rect.left = point.x-halfWidth;
+        this.rect.top = point.y-halfWidth;
+        //this.rect.right = point.x+halfWidth;
+        this.rect.bottom = point.y+halfWidth;
+        //isFalling = false;
+        canJump = true;
+
+
+    }
+    public void collidedWithPlatform(Rect r){
+        if(prevYPos <= r.centerY() - 50)
+            point.y = (r.top)-halfWidth;
+        else if(prevYPos >= r.centerY() + 50)
+            point.y = (r.bottom+1)+halfWidth;
         yVel = 0;
 
         //this.rect.left = point.x-halfWidth;
