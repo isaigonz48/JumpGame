@@ -62,6 +62,31 @@ public class ObstacleFactory {
                         new Point(screenWidth + 50, oppositeHeight));
                 Log.d(TAG, "No crash here");
                 return obs;
+
+            case 7:
+                currentHeight -= 100;
+                oppositeHeight += 100;
+                if(currentHeight < screenHeight/2){
+                    //currentHeight += 200;
+                    //oppositeHeight
+                }
+
+                obs = new ObstacleDoublePlatform(new Point(screenWidth + 50, currentHeight),
+                        new Point(screenWidth + 50, oppositeHeight));
+                return obs;
+
+            case 8:
+                currentHeight -= 100;
+                oppositeHeight += 100;
+                if(currentHeight < screenHeight/2){
+                    //currentHeight += 200;
+                    //oppositeHeight
+                }
+
+                obs = new ObstacleDoublePlatform(new Point(screenWidth + 50, currentHeight),
+                        new Point(screenWidth + 50, oppositeHeight));
+                return obs;
+
             default:
                 return new Obstacle();
 
