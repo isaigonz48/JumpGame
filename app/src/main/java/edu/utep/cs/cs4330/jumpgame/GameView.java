@@ -113,14 +113,23 @@ public class GameView extends SurfaceView implements Runnable {
                 switch(event.getAction()){
                     case MotionEvent.ACTION_DOWN:
                         performClick();
+
                         return true;
                     case MotionEvent.ACTION_UP:
+                        //performClick();
+
                         return true;
 
-                        case MotionEvent.AC
+                        //case MotionEvent.
+
+                        //case MotionEvent.AC
                 }
                 return false;
             }
+        });
+        this.setOnLongClickListener(view ->{
+            player.bufferGravity();
+            return true;
         });
         this.setOnClickListener(view -> player.bufferJump());
         player.update();

@@ -29,6 +29,7 @@ public class Player {
     private final int PLAYER_GRAVITY = 4;
     private final int INITIAL_Y = 550;
     private final int MAX_FALL_SPEED = 52;
+    private final int JUMP_POWER = 52;
 
     private int halfWidth;
     private Rect rect;
@@ -38,6 +39,7 @@ public class Player {
 
     private int playerGravity;
     private boolean jumpBuffer;
+    private boolean gravityBuffer;
     private boolean isJumping;
     private boolean isFalling;
     private boolean canJump;
@@ -88,6 +90,7 @@ public class Player {
         //        point.x + halfWidth, 100);
 
         this.jumpBuffer = false;
+        this.gravityBuffer = false;
         this.isJumping = false;
         //isFalling = true;//false;
         canJump = false;//true;
@@ -130,6 +133,10 @@ public class Player {
         this.jumpBuffer = true;
     }
 
+    public void bufferGravity(){
+        this.gravityBuffer = true;
+    }
+
     public void draw(Canvas canvas){
         //canvas.drawColor(rectColor);
         Paint paint = new Paint();
@@ -144,12 +151,16 @@ public class Player {
         if(canJump){
             if(this.jumpBuffer) {
                 Log.d(TAG, "Jump!");
-                playerGravity = -playerGravity;
+                //playerGravity = -playerGravity;
                 //Log.d(TAG, Integer.toString(playerGravity));
 
-                //yVel = -48;
+                yVel = -48;
                 //isJumping = true;
                 //isFalling = true;
+                canJump = false;
+            }
+            if(this.gravityBuffer){
+                playerGravity = -playerGravity;
                 canJump = false;
             }
         }

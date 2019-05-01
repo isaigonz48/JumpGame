@@ -76,8 +76,8 @@ public class ObstacleFactory {
                 return obs;
 
             case 8:
-                currentHeight -= 100;
-                oppositeHeight += 100;
+                currentHeight += 100;
+                oppositeHeight -= 100;
                 if(currentHeight < screenHeight/2){
                     //currentHeight += 200;
                     //oppositeHeight
