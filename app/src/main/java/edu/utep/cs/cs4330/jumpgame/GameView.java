@@ -24,7 +24,9 @@ public class GameView extends SurfaceView implements Runnable {
 
     private static String TAG = "GAMEVIEW";
 
-    final static int[] level1 = {1,1,1,1,1,1,1,6,6,6,6,6,6,6,6,1,1,1,1,1,1,1,1,1,1,1,
+
+    final static int[] level1 = {1,1,1,1,1,1,1,6,6,6,6,6,6,6,6,1,1,1,1,1,7,6,6,6,6,7,
+            6,6,6,6,6,6,8,6,6,6,6,6,8,6,6,6,6,6,7,7,6,6,6,6,6,6,8,8,6,6,6,1,1,1,1,1,1,
             1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
 
     private boolean isRunning;
@@ -114,6 +116,8 @@ public class GameView extends SurfaceView implements Runnable {
                         return true;
                     case MotionEvent.ACTION_UP:
                         return true;
+
+                        case MotionEvent.AC
                 }
                 return false;
             }
