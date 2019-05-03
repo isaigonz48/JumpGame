@@ -13,11 +13,13 @@ public class Obstacle {
     protected Rect rect;
     protected Point point;
     protected int color;
+    protected int halfWidth;
+
 
     protected int xVel;
     protected int yVel;
 
-    protected boolean isPlatform;
+    protected ObstacleType type;
     protected int numRects;
 
 
@@ -27,7 +29,7 @@ public class Obstacle {
         this.point = new Point(0,0);
         this.xVel = -25;
         this.yVel = 0;
-        isPlatform = false;
+        type = ObstacleType.OBSTACLE;
         numRects = 1;
     }
 
@@ -36,7 +38,7 @@ public class Obstacle {
         color = Color.rgb(0,0,0);
         this.color = Color.rgb(0,0,0);
         this.point = point;
-        isPlatform = false;
+        type = ObstacleType.OBSTACLE;
         numRects = 1;
     }
 
@@ -45,7 +47,7 @@ public class Obstacle {
         color = Color.rgb(0,0,0);
         this.color = Color.rgb(0,0,0);
         this.point = point;
-        isPlatform = false;
+        type = ObstacleType.OBSTACLE;
         numRects = 1;
     }
 
@@ -53,7 +55,7 @@ public class Obstacle {
         //this.rect = rectangle;
         this.color = color;
         this.point = point;
-        isPlatform = false;
+        type = ObstacleType.OBSTACLE;
     }
 
     public Point getPoint(){
@@ -80,14 +82,14 @@ public class Obstacle {
         return this.numRects;
     }
 
-    public boolean getIsPlatform(){
-        return this.isPlatform;
+    public ObstacleType getType() {
+        return this.type;
     }
 
     public void draw(Canvas canvas){
-        //canvas.drawColor(rectColor);
-        //Paint paint = new Paint();
-        //paint.setColor(this.color);
+        Paint paint = new Paint();
+        paint.setColor(this.color);
+        canvas.drawRect(this.rect, paint);
         //this.rect.set(this.point.x-50,this.point.y+50,this.point.x+50, this.point.y-50);
         //canvas.drawRect(this.rect, paint);
     }
@@ -95,6 +97,11 @@ public class Obstacle {
     public void update(){
         this.point.x += this.xVel;
         this.point.y += this.yVel;
+
+        this.rect.left = point.x-halfWidth;
+        this.rect.top = point.y-halfWidth;
+        this.rect.right = point.x+halfWidth;
+        this.rect.bottom = point.y+halfWidth;
 
     }
 }

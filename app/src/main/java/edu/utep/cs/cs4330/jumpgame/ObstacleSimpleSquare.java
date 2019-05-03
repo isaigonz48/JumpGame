@@ -11,8 +11,8 @@ import android.util.Log;
 import java.time.LocalDate;
 
 public class ObstacleSimpleSquare extends Obstacle {
-    private Rect rect;
-    private int halfWidth;
+    //private Rect rect;
+    //private int halfWidth;
 
 
     public ObstacleSimpleSquare(Point point) {
@@ -48,10 +48,10 @@ public class ObstacleSimpleSquare extends Obstacle {
     public void update() {
         super.update();
 
-        this.rect.left = point.x-halfWidth;
-        this.rect.top = point.y-halfWidth;
-        this.rect.right = point.x+halfWidth;
-        this.rect.bottom = point.y+halfWidth;
+        //this.rect.left = point.x-halfWidth;
+        //this.rect.top = point.y-halfWidth;
+        //this.rect.right = point.x+halfWidth;
+        //this.rect.bottom = point.y+halfWidth;
     }
 
     public Rect getRect(){

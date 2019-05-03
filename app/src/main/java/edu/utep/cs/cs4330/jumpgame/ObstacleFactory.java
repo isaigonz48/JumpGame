@@ -11,11 +11,6 @@ public class ObstacleFactory {
     private static int currentHeight;
     private static int oppositeHeight;
 
-    enum ObstacleType{
-        PLATFORM_SAME_HEIGHT,
-        PLATFORM_ONE_UP,
-        PLATFORM_ONE_DOWN
-    }
     public ObstacleFactory(int screenWidth, int screenHeight){
 
         this.screenWidth = screenWidth;

@@ -11,7 +11,7 @@ public class ObstacleDoublePlatform extends Obstacle {
     //private boolean isPlatform;
     private Rect rect2;
     private Point point2;
-    private int halfWidth;
+    //private int halfWidth;
 
 
     public ObstacleDoublePlatform(Point point, Point point2) {
@@ -27,7 +27,7 @@ public class ObstacleDoublePlatform extends Obstacle {
 
         //this.rect = new Rect(point.x + 50, point.y - 50, point.x - 50, point.y + 50);
         this.xVel = -15;
-        isPlatform = true;
+        type = ObstacleType.PLATFORM;
         numRects = 2;
     }
 
@@ -42,16 +42,16 @@ public class ObstacleDoublePlatform extends Obstacle {
                 point2.x + halfWidth, point2.y + halfWidth);
         //this.rect = new Rect(point.x + 50, point.y - 50, point.x - 50, point.y + 50);
         this.xVel = -15;
-        isPlatform = true;
+        type = ObstacleType.PLATFORM;
         numRects = 2;
     }
 
     @Override
     public void draw(Canvas canvas) {
-        //super.draw(canvas);
+        super.draw(canvas);
         Paint paint = new Paint();
         paint.setColor(this.color);
-        canvas.drawRect(this.rect, paint);
+        //canvas.drawRect(this.rect, paint);
         canvas.drawRect(this.rect2, paint);
     }
 
@@ -68,10 +68,10 @@ public class ObstacleDoublePlatform extends Obstacle {
         //this.rect.set(this.point.x-halfWidth,this.point.y+halfWidth,
         //      this.point.x+halfWidth, this.point.y-halfWidth);
 
-        this.rect.left = point.x-halfWidth;
-        this.rect.top = point.y-halfWidth;
-        this.rect.right = point.x+halfWidth;
-        this.rect.bottom = point.y+halfWidth;
+        //this.rect.left = point.x-halfWidth;
+        //this.rect.top = point.y-halfWidth;
+        //this.rect.right = point.x+halfWidth;
+        //this.rect.bottom = point.y+halfWidth;
         this.rect2.left = point2.x-halfWidth;
         this.rect2.top = point2.y-halfWidth;
         this.rect2.right = point2.x+halfWidth;

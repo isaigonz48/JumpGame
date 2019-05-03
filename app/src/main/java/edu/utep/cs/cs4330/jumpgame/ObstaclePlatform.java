@@ -10,8 +10,8 @@ import android.graphics.Rect;
 public class ObstaclePlatform extends Obstacle{
 
     //private boolean isPlatform;
-    private Rect rect;
-    private int halfWidth;
+    //private Rect rect;
+    //private int halfWidth;
 
 
     public ObstaclePlatform(Point point) {
@@ -22,7 +22,7 @@ public class ObstaclePlatform extends Obstacle{
 
         //this.rect = new Rect(point.x + 50, point.y - 50, point.x - 50, point.y + 50);
         this.xVel = -15;
-        isPlatform = true;
+        type = ObstacleType.PLATFORM;
 
     }
 
@@ -34,16 +34,16 @@ public class ObstaclePlatform extends Obstacle{
 
         //this.rect = new Rect(point.x + 50, point.y - 50, point.x - 50, point.y + 50);
         this.xVel = -15;
-        isPlatform = true;
+        type = ObstacleType.PLATFORM;
 
     }
 
     @Override
     public void draw(Canvas canvas) {
-        //super.draw(canvas);
-        Paint paint = new Paint();
-        paint.setColor(this.color);
-        canvas.drawRect(this.rect, paint);
+        super.draw(canvas);
+        //Paint paint = new Paint();
+        //paint.setColor(this.color);
+        //canvas.drawRect(this.rect, paint);
     }
 
     @Override
@@ -54,10 +54,10 @@ public class ObstaclePlatform extends Obstacle{
         //this.rect.set(this.point.x-halfWidth,this.point.y+halfWidth,
         //      this.point.x+halfWidth, this.point.y-halfWidth);
 
-        this.rect.left = point.x-halfWidth;
-        this.rect.top = point.y-halfWidth;
-        this.rect.right = point.x+halfWidth;
-        this.rect.bottom = point.y+halfWidth;
+        //this.rect.left = point.x-halfWidth;
+        //this.rect.top = point.y-halfWidth;
+        //this.rect.right = point.x+halfWidth;
+        //this.rect.bottom = point.y+halfWidth;
 
         //Log.d("OBSUPDATE", ("" + this.rect.left));
 

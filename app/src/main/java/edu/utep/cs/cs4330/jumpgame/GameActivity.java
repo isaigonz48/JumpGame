@@ -4,6 +4,7 @@ import android.graphics.Canvas;
 import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.SurfaceView;
 import android.view.Window;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 public class GameActivity extends AppCompatActivity {
 
+    private static final String TAG = "GAMEACTIVITYLOG";
     //private ImageView player;
     //private FrameLayout frame;
 
@@ -35,8 +37,12 @@ public class GameActivity extends AppCompatActivity {
         setContentView(game);
 
         if(game.getLost()){
+            //Log.d(TAG, "Thinking");
+            //game = new GameView(this, screenSize);
             finish();
         }
+
+        //game = new GameView(this, screenSize);
 
         //game.run();
 
