@@ -33,7 +33,7 @@ public class GameView extends SurfaceView implements Runnable {
     private Context context;
 
     private boolean isRunning;
-    private Thread gameThread = null;
+    public Thread gameThread = null;
 
     private SurfaceHolder surfaceHolder;
     private Paint paint;
@@ -255,6 +255,7 @@ public class GameView extends SurfaceView implements Runnable {
         obstacleFactory.reset();
         numObsInArray = 0;
 
+        mediaPlayer.stop();
         //mediaPlayer.reset();
         for(int i = 0; i < 19; i++){
             obstaclesOnScreen[i] = new ObstaclePlatform(new Point(i*108, ((screenHeight - screenHeight/10) -51)));
@@ -266,6 +267,7 @@ public class GameView extends SurfaceView implements Runnable {
         attemptCount++;
 
         lost = false;
+        mediaPlayer.start();
 
     }
 
@@ -317,8 +319,13 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     public void exitGame(){
-        getContext().startActivity(new Intent(getContext(), MainActivity.class));
-
+        //getContext().startActivity(new Intent(getContext(), MainActivity.class));
+        //finish();
+        isRunning = false;
+        Intent i = new Intent(context, MainActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        context.startActivity(i);
+        //context.
     }
     public void pause(){
         isRunning = false;

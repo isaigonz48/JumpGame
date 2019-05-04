@@ -46,14 +46,17 @@ public class GameActivity extends AppCompatActivity {
         //new Button
 
         setContentView(game);
+
+
         //setContentView(R.layout.activity_game);
-
-
-        if(game.getLost()){
+        //try {
+        //    game.gameThread.join();
+        //}catch(InterruptedException e){}
+        //if(game.getLost()){
             //Log.d(TAG, "Thinking");
             //game = new GameView(this, screenSize);
-            finish();
-        }
+        //    finish();
+        //}
 
         //game = new GameView(this, screenSize);
 
