@@ -88,4 +88,9 @@ public class ObstacleFactory {
 
         }
     }
+
+    public void reset(){
+        currentHeight = (screenHeight - screenHeight/10) -51;
+        oppositeHeight = screenHeight - currentHeight;
+    }
 }

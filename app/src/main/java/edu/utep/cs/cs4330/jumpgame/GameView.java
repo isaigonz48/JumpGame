@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -40,6 +41,10 @@ public class GameView extends SurfaceView implements Runnable {
     private int screenWidth;
     private int screenHeight;
 
+    private PauseButton pauseButton;
+    private boolean gamePaused;
+    private PauseMenu pauseMenu;
+
     private Player player;
     private ObstacleFactory obstacleFactory;
     //private Queue<Obstacle> obstaclesOnScreen;
@@ -56,6 +61,9 @@ public class GameView extends SurfaceView implements Runnable {
 
     private MediaPlayer mediaPlayer;
 
+    private TextView attemptText;
+    private int attemptCount;
+
     public GameView(Context context, Point screenSize){
         super(context);
 
@@ -71,8 +79,8 @@ public class GameView extends SurfaceView implements Runnable {
 
         player = new Player(context, point);
 
-        floor = new Floor(new Point(800, screenSize.y - screenSize.y/10), screenSize.x);
-        floor2 = new Floor(new Point(800, screenSize.y/10), screenSize.x);
+        floor = new Floor(new Point(screenSize.x/2, screenSize.y - screenSize.y/10), screenSize.x);
+        floor2 = new Floor(new Point(screenSize.x/2, screenSize.y/10), screenSize.x);
 
         //obs1 = new ObstacleSimpleSquare(context, new Point(1500, 550));
         //obs1 = new ObstaclePlatform(context, new Point(3000, 650));
@@ -90,9 +98,59 @@ public class GameView extends SurfaceView implements Runnable {
         levelCount = 0;
         frameTick = 0;
 
+
+        attemptCount = 1;
+        //attemptText.
+        //attemptText.setText("Attempt: " + attemptCount);
         lost = false;
+
+        pauseMenu = new PauseMenu(screenSize);
+        gamePaused = false;
+        pauseButton = new PauseButton(new Point(100, screenSize.y/10 - 50));
+        this.setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                switch(event.getAction()){
+                    case MotionEvent.ACTION_DOWN:
+                        if(!gamePaused) {
+                            if (event.getX() >= pauseButton.getRect().left && event.getX() <= pauseButton.getRect().right
+                                    && event.getY() <= pauseButton.getRect().bottom && event.getY() >= pauseButton.getRect().top)
+                                gamePaused = true;
+                            else
+                                performClick();
+                        }else{
+                            if (event.getX() >= pauseMenu.getExitRect().left && event.getX() <= pauseMenu.getExitRect().right
+                                    && event.getY() <= pauseMenu.getExitRect().bottom && event.getY() >= pauseMenu.getExitRect().top)
+                                exitGame();
+                            else if(event.getX() >= pauseMenu.getResumeRect().left && event.getX() <= pauseMenu.getResumeRect().right
+                                    && event.getY() <= pauseMenu.getResumeRect().bottom && event.getY() >= pauseMenu.getResumeRect().top)
+                                resumeGame();
+                        }
+
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        //performClick();
+
+                        //case MotionEvent.ACTION_MOVE:
+                        //  player.bufferGravity();
+
+                        return true;
+
+                    //case MotionEvent.
+
+                    //case MotionEvent.AC
+                }
+                return false;
+            }
+        });
+
+
+        //pauseButton.getRect()
+
         mediaPlayer = MediaPlayer.create(context, R.raw.bgmusic);
         mediaPlayer.start();
+
     }
 
     @Override
@@ -100,53 +158,34 @@ public class GameView extends SurfaceView implements Runnable {
         //isRunning = true;
 
         while(isRunning){
-            Log.d(TAG, "Loop");
-            try{
-                gameThread.sleep(10);
-            }catch(InterruptedException e){}
-            update();
-            //Log.d(TAG, "No crash in update");
+            //Log.d(TAG, "Loop");
+            if(!gamePaused) {
+                try {
+                    gameThread.sleep(10);
+                } catch (InterruptedException e) {
+                }
+                update();
+                //Log.d(TAG, "No crash in update");
 
-            draw();
+                draw();
 
-            if(lost)
-                lose();
-            //Log.d(TAG, "No crash in draw");
-
+                if (lost)
+                    lose();
+                if (gamePaused)
+                    pauseGame();
+                //Log.d(TAG, "No crash in draw");
+            }
         }
         Log.d(TAG, "Exit");
     }
 
     private void update(){
-        this.setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
 
-                switch(event.getAction()){
-                    case MotionEvent.ACTION_DOWN:
-                        performClick();
-
-                        return true;
-                    case MotionEvent.ACTION_UP:
-                        //performClick();
-
-                    //case MotionEvent.ACTION_MOVE:
-                      //  player.bufferGravity();
-
-                        return true;
-
-                        //case MotionEvent.
-
-                        //case MotionEvent.AC
-                }
-                return false;
-            }
-        });
         //this.setOnLongClickListener(view ->{
         //    player.bufferGravity();
         //    return true;
         //});
-        this.setOnClickListener(view -> player.bufferJump());
+        //this.setOnClickListener(view -> player.bufferJump());
         player.update();
 
         if(frameTick == 7) {
@@ -157,7 +196,7 @@ public class GameView extends SurfaceView implements Runnable {
             obstaclesOnScreen[i].update();
         }
         if(levelCount >= levelObstacles.length){
-            lose();
+            lost = true;
         }
         //obs1.update();
         floor.update();
@@ -222,7 +261,7 @@ public class GameView extends SurfaceView implements Runnable {
                     }
                 }
             }else{
-                Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getNumRects()));
+                //Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getNumRects()));
                 //Log.d(TAG, "Not double");
                 if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect())) {
                     //if(myCollision(playerRect, obs1.getRect())){
@@ -259,6 +298,7 @@ public class GameView extends SurfaceView implements Runnable {
         Point point = new Point(200,800);
         //player = new Player(context, point);
         player.reset();
+        obstacleFactory.reset();
         numObsInArray = 0;
 
         //obstaclesOnScreen = new Obstacle[(screenWidth / 100) + 2];
@@ -270,6 +310,12 @@ public class GameView extends SurfaceView implements Runnable {
         }
         frameTick = 0;
         levelCount = 0;
+
+        attemptCount++;
+
+        //attemptText.setText("Attempt: " + attemptCount);
+
+
         lost = false;
 
         //mediaPlayer.reset();
@@ -310,10 +356,46 @@ public class GameView extends SurfaceView implements Runnable {
             //obs1.draw(canvas);
             floor.draw(canvas);
             floor2.draw(canvas);
+            drawText();
+            pauseButton.draw(canvas);
+            //pauseMenu.draw(canvas);
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
     }
 
+    public void drawText(){
+
+        Log.d(TAG, "Draw le text");
+        //canvas = surfaceHolder.lockCanvas();
+        Paint paint = new Paint();
+        paint.setColor(Color.rgb(0,0,0));
+        //canvas.drawColor(Color.rgb(0, 0, 0));
+        paint.setTextSize(48);
+        canvas.drawText(("Attempt: " + attemptCount), screenWidth - 300,screenHeight/10 - 50, paint);
+        //canvas.drawText(("Attempt: + attemptCount"), 500,500, paint);
+
+    }
+
+    public void pauseGame(){
+        mediaPlayer.pause();
+        //isRunning = false;
+        gamePaused = true;
+        if(surfaceHolder.getSurface().isValid()) {
+            canvas = surfaceHolder.lockCanvas();
+            //canvas.drawColor(Color.rgb(255, 255, 255));
+            pauseMenu.draw(canvas);
+            surfaceHolder.unlockCanvasAndPost(canvas);
+        }
+    }
+
+    public void resumeGame(){
+        gamePaused = false;
+        mediaPlayer.start();
+    }
+
+    public void exitGame(){
+        getContext().startActivity(new Intent(getContext(), MainActivity.class));
+    }
     public void pause(){
         isRunning = false;
         mediaPlayer.pause();

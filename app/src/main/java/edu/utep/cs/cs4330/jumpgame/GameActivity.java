@@ -9,6 +9,7 @@ import android.view.Display;
 import android.view.SurfaceView;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -20,6 +21,7 @@ public class GameActivity extends AppCompatActivity {
     //private FrameLayout frame;
 
     private GameView game;
+    private Button pauseButton;
     private Player player;
     private int x;
     private int y;
@@ -32,9 +34,20 @@ public class GameActivity extends AppCompatActivity {
         Point screenSize = new Point();
         display.getSize(screenSize);
 
+        //pauseButton = findViewById(R.id.pauseButton);
+
         game = new GameView(this, screenSize);
 
+        //game = findViewById(R.id.gameView);
+        //game.
+        //FrameLayout frame = new FrameLayout();
+        //new Fram
+        //pauseButton = new Button();
+        //new Button
+
         setContentView(game);
+        //setContentView(R.layout.activity_game);
+
 
         if(game.getLost()){
             //Log.d(TAG, "Thinking");
