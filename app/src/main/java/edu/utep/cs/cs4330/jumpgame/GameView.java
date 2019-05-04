@@ -47,7 +47,6 @@ public class GameView extends SurfaceView implements Runnable {
 
     private Player player;
     private ObstacleFactory obstacleFactory;
-    //private Queue<Obstacle> obstaclesOnScreen;
     private Obstacle[] obstaclesOnScreen;
     private int numObsInArray;
     private Obstacle obs1;
@@ -74,7 +73,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         screenHeight = screenSize.y;
         screenWidth = screenSize.x;
-        //Point point = new Point(200,((screenSize.y - screenSize.y/10) -152));
+
         Point point = new Point(200,800);
 
         player = new Player(context, point);
@@ -82,8 +81,6 @@ public class GameView extends SurfaceView implements Runnable {
         floor = new Floor(new Point(screenSize.x/2, screenSize.y - screenSize.y/10), screenSize.x);
         floor2 = new Floor(new Point(screenSize.x/2, screenSize.y/10), screenSize.x);
 
-        //obs1 = new ObstacleSimpleSquare(context, new Point(1500, 550));
-        //obs1 = new ObstaclePlatform(context, new Point(3000, 650));
         obstacleFactory = new ObstacleFactory(screenSize.x, screenSize.y);
 
         obstaclesOnScreen = new Obstacle[(screenSize.x / 100) + 2];
@@ -93,15 +90,13 @@ public class GameView extends SurfaceView implements Runnable {
             obstaclesOnScreen[i] = new ObstaclePlatform(new Point(i*108, ((screenSize.y - screenSize.y/10) -51)));
             numObsInArray++;
         }
-        //obstaclesOnScreen = new LinkedList<>();
+
         levelObstacles = level1;
         levelCount = 0;
         frameTick = 0;
 
 
         attemptCount = 1;
-        //attemptText.
-        //attemptText.setText("Attempt: " + attemptCount);
         lost = false;
 
         pauseMenu = new PauseMenu(screenSize);
@@ -130,23 +125,11 @@ public class GameView extends SurfaceView implements Runnable {
 
                         return true;
                     case MotionEvent.ACTION_UP:
-                        //performClick();
-
-                        //case MotionEvent.ACTION_MOVE:
-                        //  player.bufferGravity();
-
                         return true;
-
-                    //case MotionEvent.
-
-                    //case MotionEvent.AC
                 }
                 return false;
             }
         });
-
-
-        //pauseButton.getRect()
 
         mediaPlayer = MediaPlayer.create(context, R.raw.bgmusic);
         mediaPlayer.start();
@@ -180,12 +163,6 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void update(){
-
-        //this.setOnLongClickListener(view ->{
-        //    player.bufferGravity();
-        //    return true;
-        //});
-        //this.setOnClickListener(view -> player.bufferJump());
         player.update();
 
         if(frameTick == 7) {
@@ -198,7 +175,6 @@ public class GameView extends SurfaceView implements Runnable {
         if(levelCount >= levelObstacles.length){
             lost = true;
         }
-        //obs1.update();
         floor.update();
         //Log.d(TAG, "about to collide");
         checkCollisions();
@@ -217,7 +193,6 @@ public class GameView extends SurfaceView implements Runnable {
             obstaclesOnScreen[numObsInArray] = obstacleFactory.createObstacle(levelObstacles[levelCount]);
             numObsInArray++;
         }
-        //Log.d(TAG, Integer.toString(levelCount));
         levelCount++;
 
     }
@@ -230,8 +205,6 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void checkCollisions(){
-        //Log.d("GAMEUPDATE", "lost");
-
         Rect playerRect = player.getRect();
         ///// FIX ME
         if(Rect.intersects(player.getRect(), floor.getFloorLine()) || Rect.intersects(playerRect, floor2.getFloorLine())) {
@@ -239,16 +212,12 @@ public class GameView extends SurfaceView implements Runnable {
             lost = true;
         }
         for(int i = 0; i < numObsInArray; i++) {
-            //Log.d(TAG, "Wait a minuto");
             if(obstaclesOnScreen[i].getNumRects() > 1){
-                //Log.d(TAG, "A double");
                 for(int j = 1; j <= obstaclesOnScreen[i].getNumRects(); j++){
                     if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect(j))) {
                         ObstacleType obsType = obstaclesOnScreen[i].getType();
 
                         switch(obsType) {
-                            //if(myCollision(playerRect, obs1.getRect())){
-                            //obstaclesOnScreen.
                             case OBSTACLE:
                                 lost = true;
                                 break;
@@ -261,16 +230,9 @@ public class GameView extends SurfaceView implements Runnable {
                     }
                 }
             }else{
-                //Log.d(TAG, Integer.toString(obstaclesOnScreen[i].getNumRects()));
-                //Log.d(TAG, "Not double");
                 if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect())) {
-                    //if(myCollision(playerRect, obs1.getRect())){
-                    //obstaclesOnScreen.
                     ObstacleType obsType = obstaclesOnScreen[i].getType();
-
                     switch(obsType) {
-                        //if(myCollision(playerRect, obs1.getRect())){
-                        //obstaclesOnScreen.
                         case OBSTACLE:
                             lost = true;
                             break;
@@ -286,22 +248,12 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void lose(){
-        //isRunning = false;
-        //try {
-            //Log.d(TAG, "WORK PLSSSS");
-            //gameThread.join();
-            //Log.d(TAG, "WORK PLSSSS");
-
-        //}catch(InterruptedException e){}
-        //lost = true;
         Log.d("GAMEUPDATE", "lost");
         Point point = new Point(200,800);
         //player = new Player(context, point);
         player.reset();
         obstacleFactory.reset();
         numObsInArray = 0;
-
-        //obstaclesOnScreen = new Obstacle[(screenWidth / 100) + 2];
 
         //mediaPlayer.reset();
         for(int i = 0; i < 19; i++){
@@ -313,28 +265,8 @@ public class GameView extends SurfaceView implements Runnable {
 
         attemptCount++;
 
-        //attemptText.setText("Attempt: " + attemptCount);
-
-
         lost = false;
 
-        //mediaPlayer.reset();
-
-
-        //isRunning = true;
-
-        //gameThread = new Thread(this);
-        //gameThread.start();
-        //try {
-            //gameThread.;
-        //}catch(InterruptedException e){}
-
-        //gameThread = new Thread(this);
-        //gameThread.start();
-        //mediaPlayer.reset();
-        //mediaPlayer.rese
-        //gameThread.join();
-        //getContext().startActivity(new Intent(getContext(), MainActivity.class));
     }
 
     public boolean getLost(){
@@ -347,13 +279,8 @@ public class GameView extends SurfaceView implements Runnable {
             canvas.drawColor(Color.rgb(255, 255, 255));
             player.draw(canvas);
             for(int i = 0; i < numObsInArray; i++){
-                //for(int j = 0; j < obstaclesOnScreen[i].getNumRects; j++) {
-                    obstaclesOnScreen[i].draw(canvas);
-                //}
+                obstaclesOnScreen[i].draw(canvas);
             }
-            //Log.d(TAG, "No crash in draw");
-
-            //obs1.draw(canvas);
             floor.draw(canvas);
             floor2.draw(canvas);
             drawText();
@@ -366,13 +293,10 @@ public class GameView extends SurfaceView implements Runnable {
     public void drawText(){
 
         Log.d(TAG, "Draw le text");
-        //canvas = surfaceHolder.lockCanvas();
         Paint paint = new Paint();
         paint.setColor(Color.rgb(0,0,0));
-        //canvas.drawColor(Color.rgb(0, 0, 0));
         paint.setTextSize(48);
         canvas.drawText(("Attempt: " + attemptCount), screenWidth - 300,screenHeight/10 - 50, paint);
-        //canvas.drawText(("Attempt: + attemptCount"), 500,500, paint);
 
     }
 
@@ -382,7 +306,6 @@ public class GameView extends SurfaceView implements Runnable {
         gamePaused = true;
         if(surfaceHolder.getSurface().isValid()) {
             canvas = surfaceHolder.lockCanvas();
-            //canvas.drawColor(Color.rgb(255, 255, 255));
             pauseMenu.draw(canvas);
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
@@ -395,6 +318,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void exitGame(){
         getContext().startActivity(new Intent(getContext(), MainActivity.class));
+
     }
     public void pause(){
         isRunning = false;
