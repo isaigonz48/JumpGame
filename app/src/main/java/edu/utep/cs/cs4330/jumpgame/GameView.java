@@ -25,7 +25,7 @@ public class GameView extends SurfaceView implements Runnable {
     private static String TAG = "GAMEVIEW";
 
 
-    final static int[] level1 = {1,1,1,1,1,5,1,1,6,6,6,6,6,6,6,6,1,1,1,1,1,7,6,6,6,6,7,
+    final static int[] level1 = {5,1,1,1,1,1,5,1,1,6,6,6,6,6,6,6,6,1,1,1,1,1,7,6,6,6,6,7,
             6,6,6,6,6,6,8,6,6,6,6,6,8,6,6,6,6,6,7,7,6,6,6,6,6,6,8,8,6,6,6,1,1,1,1,1,1,
             1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
 
@@ -108,6 +108,9 @@ public class GameView extends SurfaceView implements Runnable {
             //Log.d(TAG, "No crash in update");
 
             draw();
+
+            if(lost)
+                lose();
             //Log.d(TAG, "No crash in draw");
 
         }
@@ -194,7 +197,7 @@ public class GameView extends SurfaceView implements Runnable {
         ///// FIX ME
         if(Rect.intersects(player.getRect(), floor.getFloorLine()) || Rect.intersects(playerRect, floor2.getFloorLine())) {
             player.collidedWithFloor(floor);
-            lose();
+            lost = true;
         }
         for(int i = 0; i < numObsInArray; i++) {
             //Log.d(TAG, "Wait a minuto");
@@ -208,12 +211,12 @@ public class GameView extends SurfaceView implements Runnable {
                             //if(myCollision(playerRect, obs1.getRect())){
                             //obstaclesOnScreen.
                             case OBSTACLE:
-                                lose();
+                                lost = true;
                                 break;
                             case PLATFORM:
                                 player.collidedWithPlatform(obstaclesOnScreen[i].getRect(j));
                                 if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect(j)))
-                                    lose();
+                                    lost = true;
                                 break;
                         }
                     }
@@ -230,12 +233,12 @@ public class GameView extends SurfaceView implements Runnable {
                         //if(myCollision(playerRect, obs1.getRect())){
                         //obstaclesOnScreen.
                         case OBSTACLE:
-                            lose();
+                            lost = true;
                             break;
                         case PLATFORM:
                             player.collidedWithPlatform(obstaclesOnScreen[i].getRect());
                             if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect()))
-                                lose();
+                                lost = true;
                             break;
                     }
                 }
@@ -254,10 +257,11 @@ public class GameView extends SurfaceView implements Runnable {
         //lost = true;
         Log.d("GAMEUPDATE", "lost");
         Point point = new Point(200,800);
-
+        //player = new Player(context, point);
+        player.reset();
         numObsInArray = 0;
 
-        obstaclesOnScreen = new Obstacle[(screenWidth / 100) + 2];
+        //obstaclesOnScreen = new Obstacle[(screenWidth / 100) + 2];
 
         //mediaPlayer.reset();
         for(int i = 0; i < 19; i++){
@@ -266,9 +270,9 @@ public class GameView extends SurfaceView implements Runnable {
         }
         frameTick = 0;
         levelCount = 0;
-        player = new Player(context, point);
+        lost = false;
 
-        mediaPlayer.reset();
+        //mediaPlayer.reset();
 
 
         //isRunning = true;

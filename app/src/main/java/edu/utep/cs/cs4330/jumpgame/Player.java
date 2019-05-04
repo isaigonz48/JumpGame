@@ -248,4 +248,19 @@ public class Player {
 
 
     }
+
+    public void reset(){
+        this.prevYPos = startingY;
+        this.point.y = startingY;
+        this.playerGravity = 4;
+
+        this.rect.left = point.x-halfWidth;
+        this.rect.top = point.y-halfWidth;
+        this.rect.right = point.x+halfWidth;
+        this.rect.bottom = point.y+halfWidth;
+
+        this.jumpBuffer = false;
+        this.gravityBuffer = false;
+        this.isJumping = false;
+    }
 }
