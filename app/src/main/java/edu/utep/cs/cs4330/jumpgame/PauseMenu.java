@@ -71,24 +71,32 @@ public class PauseMenu {
 
     public void draw(Canvas canvas){
         Paint paint = new Paint();
+        Rect bgRect = new Rect(point.x - (halfWidth+3), point.y - (halfHeight+3),
+                point.x + (halfWidth+3), point.y + (halfHeight+3));
+
+        paint.setColor(Color.rgb(0,0,255));
+
+        canvas.drawRect(bgRect,paint);
         paint.setColor(this.color);
+        paint.setColor(Color.rgb(0,0,0));
         canvas.drawRect(this.menuRect, paint);
 
 
-        Bitmap button = BitmapFactory.decodeResource(context.getResources(), R.drawable.custom_button_bg);
+        //Bitmap button = BitmapFactory.decodeResource(context.getResources(), R.drawable.custom_button_bg);
 
         paint.setColor(Color.rgb(255,0,0));
-        //canvas.drawRect(this.exitRect,paint);
+        //paint.setColor()
+        canvas.drawRect(this.exitRect,paint);
         canvas.drawRect(this.resumeRect,paint);
 
         //Drawable drawable = ContextCompat.getDrawable(context,R.drawable.custom_button_bg);
-        Drawable drawable = context.getResources().getDrawable(R.drawable.custom_button_bg);
+        //Drawable drawable = context.getResources().getDrawable(R.drawable.custom_button_bg);
 
-        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_4444);
+        //Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_4444);
         //canvas.setBitmap(bitmap);
         //drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
         //drawable.draw(canvas);
-        canvas.drawBitmap(bitmap,this.exitRect.left, this.exitRect.top, paint);
+        //canvas.drawBitmap(bitmap,this.exitRect.left, this.exitRect.top, paint);
 
 
         //canvas.drawBitmap(button, this.exitRect.left, this.exitRect.top, paint);
