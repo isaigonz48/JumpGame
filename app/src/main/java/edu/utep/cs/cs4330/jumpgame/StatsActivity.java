@@ -4,10 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class StatsActivity extends AppCompatActivity {
 
+    private Button backButton;
     private TextView level1Text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,5 +27,11 @@ public class StatsActivity extends AppCompatActivity {
         }else{
             level1Text.setText(("Level 1: " + level1Attempts + " attempts"));
         }
+
+        backButton = findViewById(R.id.statsBackButton);
+
+        backButton.setOnClickListener(view->{
+            finish();
+        });
     }
 }

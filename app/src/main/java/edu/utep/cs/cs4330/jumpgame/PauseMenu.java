@@ -1,11 +1,15 @@
 package edu.utep.cs.cs4330.jumpgame;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 
 public class PauseMenu {
 
@@ -19,11 +23,13 @@ public class PauseMenu {
     private Rect exitRect;
 
     private Rect resumeRect;
+    private Context context;
 
 
 
-    public PauseMenu(Point screenSize){
+    public PauseMenu(Point screenSize, Context context){
         //super();
+        this.context = context;
         this.halfWidth = screenSize.x / 3;
         this.halfHeight = screenSize.y / 5;
         //this.rect = new Rect(100,500,200,600);
@@ -69,10 +75,23 @@ public class PauseMenu {
         canvas.drawRect(this.menuRect, paint);
 
 
+        Bitmap button = BitmapFactory.decodeResource(context.getResources(), R.drawable.custom_button_bg);
 
         paint.setColor(Color.rgb(255,0,0));
-        canvas.drawRect(this.exitRect,paint);
+        //canvas.drawRect(this.exitRect,paint);
         canvas.drawRect(this.resumeRect,paint);
+
+        //Drawable drawable = ContextCompat.getDrawable(context,R.drawable.custom_button_bg);
+        Drawable drawable = context.getResources().getDrawable(R.drawable.custom_button_bg);
+
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_4444);
+        //canvas.setBitmap(bitmap);
+        //drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        //drawable.draw(canvas);
+        canvas.drawBitmap(bitmap,this.exitRect.left, this.exitRect.top, paint);
+
+
+        //canvas.drawBitmap(button, this.exitRect.left, this.exitRect.top, paint);
 
         paint.setColor(Color.rgb(255,255,255));
         paint.setTextSize(96);

@@ -22,14 +22,17 @@ public class WinActivity extends AppCompatActivity {
         setContentView(R.layout.activity_win);
 
         Intent i = getIntent();
+        int level = i.getIntExtra("level", 1);
         int attemptCount = i.getIntExtra("attemptCount", 1);
 
         SharedPreferences sharedPreferences = getSharedPreferences("userStats", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
-        if(sharedPreferences.getInt("level1", attemptCount+1) > attemptCount) {
-            editor.putInt("level1", attemptCount);
-            editor.apply();
+        if(level == 1) {
+            if (sharedPreferences.getInt("level1", attemptCount + 1) > attemptCount) {
+                editor.putInt("level1", attemptCount);
+                editor.apply();
+            }
         }
 
         congratulationsText = findViewById(R.id.congratulationsText);

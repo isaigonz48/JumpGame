@@ -1,5 +1,6 @@
 package edu.utep.cs.cs4330.jumpgame;
 
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Point;
 import android.support.v7.app.AppCompatActivity;
@@ -37,7 +38,10 @@ public class GameActivity extends AppCompatActivity {
 
         //pauseButton = findViewById(R.id.pauseButton);
 
-        game = new GameView(this, screenSize);
+        Intent i = getIntent();
+        int level = i.getIntExtra("level", 1);
+
+        game = new GameView(this, screenSize, level);
 
         //game = findViewById(R.id.gameView);
         //game.

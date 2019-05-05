@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         statsButton = findViewById(R.id.mainStatsButton);
 
         startButton.setOnClickListener(view ->{
-            Intent i = new Intent(this, GameActivity.class);
+            Intent i = new Intent(this, LevelSelectActivity.class);
             startActivity(i);
         });
 

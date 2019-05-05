@@ -65,7 +65,7 @@ public class GameView extends SurfaceView implements Runnable {
     private boolean lost;
     private boolean won;
 
-    public GameView(Context context, Point screenSize){
+    public GameView(Context context, Point screenSize, int levelSeleceted){
         super(context);
 
         this.context = context;
@@ -93,7 +93,7 @@ public class GameView extends SurfaceView implements Runnable {
             numObsInArray++;
         }
 
-        level = 1;
+        level = levelSeleceted;
         if(level == 1)
             levelObstacles = level1;
         levelCount = 0;
@@ -104,7 +104,7 @@ public class GameView extends SurfaceView implements Runnable {
         lost = false;
         won = false;
 
-        pauseMenu = new PauseMenu(screenSize);
+        pauseMenu = new PauseMenu(screenSize, context);
         gamePaused = false;
         pauseButton = new PauseButton(context,new Point(100, screenSize.y/10 - 50));
         this.setOnTouchListener(new OnTouchListener() {
@@ -292,7 +292,7 @@ public class GameView extends SurfaceView implements Runnable {
     private void draw(){
         if(surfaceHolder.getSurface().isValid()) {
             canvas = surfaceHolder.lockCanvas();
-            canvas.drawColor(Color.rgb(255, 255, 255));
+            canvas.drawColor(Color.rgb(0, 0, 0));
             player.draw(canvas);
             for(int i = 0; i < numObsInArray; i++){
                 obstaclesOnScreen[i].draw(canvas);
