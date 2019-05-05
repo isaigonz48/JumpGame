@@ -172,7 +172,7 @@ public class GameView extends SurfaceView implements Runnable {
     private void update(){
         player.update();
 
-        if(frameTick == 7) {
+        if(frameTick == 5) {
             updateObstaclesOnScreen();
             frameTick = 0;
         }
@@ -292,7 +292,7 @@ public class GameView extends SurfaceView implements Runnable {
     private void draw(){
         if(surfaceHolder.getSurface().isValid()) {
             canvas = surfaceHolder.lockCanvas();
-            canvas.drawColor(Color.rgb(0, 0, 0));
+            canvas.drawColor(Color.rgb(0, 0, 125));
             player.draw(canvas);
             for(int i = 0; i < numObsInArray; i++){
                 obstaclesOnScreen[i].draw(canvas);

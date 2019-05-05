@@ -22,7 +22,7 @@ public class ObstacleSimpleSquare extends Obstacle {
         this.rect = new Rect(point.x - halfWidth, point.y - halfWidth,
                 point.x + halfWidth, point.y + halfWidth);
 
-        this.xVel = -15;
+        //this.xVel = -15;
 
     }
 

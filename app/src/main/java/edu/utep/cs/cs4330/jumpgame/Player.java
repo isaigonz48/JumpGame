@@ -109,7 +109,7 @@ public class Player {
         this.xVel = 0;
         this.yVel = 0;
         this.startingY = point.y;
-        playerGravity = 4;
+        playerGravity = 3;
         jumpTick = 0;
     }
 
@@ -268,7 +268,7 @@ public class Player {
                 //playerGravity = -playerGravity;
                 //Log.d(TAG, Integer.toString(playerGravity));
 
-                yVel = -48;
+                yVel = -36;
                 //isJumping = true;
                 //isFalling = true;
                 canJump = false;

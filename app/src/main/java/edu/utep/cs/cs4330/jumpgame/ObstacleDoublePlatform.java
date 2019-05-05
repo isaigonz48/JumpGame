@@ -26,7 +26,7 @@ public class ObstacleDoublePlatform extends Obstacle {
                 point2.x + halfWidth, point2.y + halfWidth);
 
         //this.rect = new Rect(point.x + 50, point.y - 50, point.x - 50, point.y + 50);
-        this.xVel = -15;
+        //this.xVel = -15;
         type = ObstacleType.PLATFORM;
         numRects = 2;
     }
