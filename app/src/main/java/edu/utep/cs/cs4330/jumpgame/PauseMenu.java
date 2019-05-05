@@ -27,8 +27,8 @@ public class PauseMenu {
         this.halfWidth = screenSize.x / 3;
         this.halfHeight = screenSize.y / 4;
         //this.rect = new Rect(100,500,200,600);
-        color = Color.rgb(255,0,0);
-        this.color = Color.rgb(0,0,0);
+        //color = Color.rgb(255,0,0);
+        this.color = Color.rgb(0,0,100);
         this.point = new Point(screenSize.x/2, screenSize.y/2);
         this.menuRect = new Rect(point.x - halfWidth, point.y - halfHeight,
                 point.x + halfWidth, point.y + halfHeight);
@@ -67,6 +67,10 @@ public class PauseMenu {
         Paint paint = new Paint();
         paint.setColor(this.color);
         canvas.drawRect(this.menuRect, paint);
+
+        paint.setColor(Color.rgb(255,255,255));
+        paint.setTextSize(92);
+        canvas.drawText("Paused", point.x-paint.getW,point.y - halfHeight/2, paint);
 
         paint.setColor(Color.rgb(255,0,0));
         canvas.drawRect(this.exitRect,paint);

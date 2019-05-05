@@ -1,8 +1,11 @@
 package edu.utep.cs.cs4330.jumpgame;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -15,6 +18,8 @@ public class PauseButton{
     protected Point point;
     protected int color;
     protected int halfWidth;
+
+    private Bitmap model;
 
 
     public PauseButton(){
@@ -44,6 +49,13 @@ public class PauseButton{
         this.point = point;
         this.rect = new Rect(point.x - halfWidth, point.y - halfWidth,
                 point.x + halfWidth, point.y + halfWidth);
+
+        Matrix matrix = new Matrix();
+        model = BitmapFactory.decodeResource(context.getResources(), R.drawable.pause_button);
+        int bWidth = model.getWidth();
+        int bHeight = model.getHeight();
+        matrix.postScale((float)75/bWidth, (float) 80/bHeight);
+        model = Bitmap.createBitmap(model,0,0,bHeight,bWidth,matrix,false);
     }
 
     public Point getPoint(){
@@ -62,7 +74,8 @@ public class PauseButton{
     public void draw(Canvas canvas){
         Paint paint = new Paint();
         paint.setColor(this.color);
-        canvas.drawRect(this.rect, paint);
+        //canvas.drawRect(this.rect, paint);
+        canvas.drawBitmap(model, point.x-halfWidth+12, point.y-halfWidth+10, paint);
         //this.rect.set(this.point.x-50,this.point.y+50,this.point.x+50, this.point.y-50);
         //canvas.drawRect(this.rect, paint);
     }

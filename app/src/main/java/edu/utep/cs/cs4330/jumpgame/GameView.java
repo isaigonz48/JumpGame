@@ -101,7 +101,7 @@ public class GameView extends SurfaceView implements Runnable {
 
         pauseMenu = new PauseMenu(screenSize);
         gamePaused = false;
-        pauseButton = new PauseButton(new Point(100, screenSize.y/10 - 50));
+        pauseButton = new PauseButton(context,new Point(100, screenSize.y/10 - 50));
         this.setOnTouchListener(new OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
