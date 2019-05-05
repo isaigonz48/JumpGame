@@ -34,6 +34,7 @@ public class GameActivity extends AppCompatActivity {
         Point screenSize = new Point();
         display.getSize(screenSize);
 
+
         //pauseButton = findViewById(R.id.pauseButton);
 
         game = new GameView(this, screenSize);

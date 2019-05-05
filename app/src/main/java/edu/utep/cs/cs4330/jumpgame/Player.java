@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -26,6 +27,7 @@ public class Player {
     //private final int[] jumpAnimation = {R.drawable.basic_square, R.drawable.basic_square_rotate1, R.drawable.basic_square_rotate2, R.drawable.basic_square_rotate3};
 
     private Bitmap model;
+    private Bitmap models[];
     private final int PLAYER_GRAVITY = 4;
     private final int INITIAL_Y = 550;
     private final int MAX_FALL_SPEED = 52;
@@ -49,6 +51,7 @@ public class Player {
     //private int prevYVel;
     private int prevYPos;
     //private short jumpTick;
+    private int jumpTick;
     private int startingY;
 
 
@@ -79,7 +82,16 @@ public class Player {
 
     public Player(Context context, Point point){
         this.halfWidth = 50;
-        this.model = BitmapFactory.decodeResource(context.getResources(), R.drawable.basic_square);
+
+        //models = new Bitmap[4];
+        models = createJumpAnimation(context);
+        //this.model = BitmapFactory.decodeResource()
+        this.model = models[0];
+
+        //models[0] = models[3];
+
+                //Bitmap.createS
+        //this.model.reconfigure(100,100, 0);
         rectColor = Color.rgb(0,0,255);
         this.point = point;
         //this.point.y = -2050;
@@ -98,9 +110,101 @@ public class Player {
         this.yVel = 0;
         this.startingY = point.y;
         playerGravity = 4;
-        //jumpTick = 0;
+        jumpTick = 0;
     }
 
+    private Bitmap[] createJumpAnimation(Context context){
+
+        models = new Bitmap[12];
+        models[0] = BitmapFactory.decodeResource(context.getResources(), R.drawable.basic_square);
+
+        int bWidth = models[0].getWidth();
+        int bHeight = models[0].getHeight();
+
+        Matrix matrix = new Matrix();
+        matrix.postScale((float)100/bWidth, (float) 100/bHeight);
+        models[0] = Bitmap.createBitmap(models[0],0,0,bHeight,bWidth,matrix,false);
+
+
+        matrix = new Matrix();
+        this.models[1] = BitmapFactory.decodeResource(context.getResources(), R.drawable.basic_square_rotate1);
+        bWidth = models[1].getWidth();
+        bHeight = models[1].getHeight();
+        matrix.postScale((float)116/bWidth, (float) 116/bHeight);
+        models[1] = Bitmap.createBitmap(models[1],0,0,bHeight,bWidth,matrix,false);
+
+        matrix = new Matrix();
+        this.models[2] = BitmapFactory.decodeResource(context.getResources(), R.drawable.basic_square_rotate2);
+        bWidth = models[2].getWidth();
+        bHeight = models[2].getHeight();
+        matrix.postScale((float)124/bWidth, (float) 124/bHeight);
+        models[2] = Bitmap.createBitmap(models[2],0,0,bHeight,bWidth,matrix,false);
+
+        matrix = new Matrix();
+        this.models[3] = BitmapFactory.decodeResource(context.getResources(), R.drawable.basic_square_rotate3);
+        bWidth = models[3].getWidth();
+        bHeight = models[3].getHeight();
+        matrix.postScale((float)132/bWidth, (float) 132/bHeight);
+        models[3] = Bitmap.createBitmap(models[3],0,0,bHeight,bWidth,matrix,false);
+
+        matrix = new Matrix();
+        this.models[4] = BitmapFactory.decodeResource(context.getResources(), R.drawable.basic_square_rotate4);
+        bWidth = models[4].getWidth();
+        bHeight = models[4].getHeight();
+        matrix.postScale((float)140/bWidth, (float) 140/bHeight);
+        models[4] = Bitmap.createBitmap(models[4],0,0,bHeight,bWidth,matrix,false);
+
+        matrix = new Matrix();
+        this.models[5] = BitmapFactory.decodeResource(context.getResources(), R.drawable.basic_square_rotate5);
+        bWidth = models[5].getWidth();
+        bHeight = models[5].getHeight();
+        matrix.postScale((float)144/bWidth, (float) 144/bHeight);
+        models[5] = Bitmap.createBitmap(models[5],0,0,bHeight,bWidth,matrix,false);
+
+        matrix = new Matrix();
+        this.models[6] = BitmapFactory.decodeResource(context.getResources(), R.drawable.basic_square_rotate6);
+        bWidth = models[6].getWidth();
+        bHeight = models[6].getHeight();
+        matrix.postScale((float)144/bWidth, (float) 144/bHeight);
+        models[6] = Bitmap.createBitmap(models[6],0,0,bHeight,bWidth,matrix,false);
+
+        matrix = new Matrix();
+        this.models[7] = BitmapFactory.decodeResource(context.getResources(), R.drawable.basic_square_rotate7);
+        bWidth = models[7].getWidth();
+        bHeight = models[7].getHeight();
+        matrix.postScale((float)144/bWidth, (float) 144/bHeight);
+        models[7] = Bitmap.createBitmap(models[7],0,0,bHeight,bWidth,matrix,false);
+
+        matrix = new Matrix();
+        this.models[8] = BitmapFactory.decodeResource(context.getResources(), R.drawable.basic_square_rotate8);
+        bWidth = models[8].getWidth();
+        bHeight = models[8].getHeight();
+        matrix.postScale((float)140/bWidth, (float) 140/bHeight);
+        models[8] = Bitmap.createBitmap(models[8],0,0,bHeight,bWidth,matrix,false);
+
+        matrix = new Matrix();
+        this.models[9] = BitmapFactory.decodeResource(context.getResources(), R.drawable.basic_square_rotate9);
+        bWidth = models[9].getWidth();
+        bHeight = models[9].getHeight();
+        matrix.postScale((float)132/bWidth, (float) 132/bHeight);
+        models[9] = Bitmap.createBitmap(models[9],0,0,bHeight,bWidth,matrix,false);
+
+        matrix = new Matrix();
+        this.models[10] = BitmapFactory.decodeResource(context.getResources(), R.drawable.basic_square_rotate10);
+        bWidth = models[10].getWidth();
+        bHeight = models[10].getHeight();
+        matrix.postScale((float)124/bWidth, (float) 124/bHeight);
+        models[10] = Bitmap.createBitmap(models[10],0,0,bHeight,bWidth,matrix,false);
+
+        matrix = new Matrix();
+        this.models[11] = BitmapFactory.decodeResource(context.getResources(), R.drawable.basic_square_rotate11);
+        bWidth = models[11].getWidth();
+        bHeight = models[11].getHeight();
+        matrix.postScale((float)116/bWidth, (float) 116/bHeight);
+        models[11] = Bitmap.createBitmap(models[11],0,0,bHeight,bWidth,matrix,false);
+
+        return models;
+    }
     public Player(Point point){
         this.rect = new Rect(100,500,200,600);
         rectColor = Color.rgb(255,0,0);
@@ -140,15 +244,25 @@ public class Player {
     public void draw(Canvas canvas){
         //canvas.drawColor(rectColor);
         Paint paint = new Paint();
+
         paint.setColor(this.rectColor);
-        canvas.drawRect(this.rect, paint);
+        //canvas.drawRect(this.rect, paint);
         /////left top
-        //canvas.drawBitmap(model, point.x - 50, point.y - 50, paint);
+        //model.setHeight(100);
+        //model.setWidth(100);
+
+        //canvas.drawBitmap(model, paint);
+
+        canvas.drawBitmap(model, point.x - halfWidth, point.y - halfWidth, paint);
     }
+
+
+
 
     public void update(){
         //if(!isJumping && !isFalling) {
         if(canJump){
+            model = models[0];
             if(this.jumpBuffer) {
                 Log.d(TAG, "Jump!");
                 //playerGravity = -playerGravity;
@@ -164,6 +278,10 @@ public class Player {
                 canJump = false;
             }
         }
+
+        if(++jumpTick > 11)
+            jumpTick = 0;
+        model = models[jumpTick];
 
         if(abs(this.yVel) < MAX_FALL_SPEED){
             //Log.d(TAG, "Adding vel");
@@ -245,6 +363,9 @@ public class Player {
         this.rect.bottom = point.y+halfWidth;
         //isFalling = false;
         canJump = true;
+
+        model = models[0];
+        jumpTick = 0;
 
 
     }

@@ -255,7 +255,7 @@ public class GameView extends SurfaceView implements Runnable {
         obstacleFactory.reset();
         numObsInArray = 0;
 
-        mediaPlayer.stop();
+        //mediaPlayer.stop();
         //mediaPlayer.reset();
         for(int i = 0; i < 19; i++){
             obstaclesOnScreen[i] = new ObstaclePlatform(new Point(i*108, ((screenHeight - screenHeight/10) -51)));
@@ -267,7 +267,9 @@ public class GameView extends SurfaceView implements Runnable {
         attemptCount++;
 
         lost = false;
-        mediaPlayer.start();
+        //mediaPlayer.start();
+        mediaPlayer.seekTo(0);
+
 
     }
 
@@ -294,7 +296,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     public void drawText(){
 
-        Log.d(TAG, "Draw le text");
+        //Log.d(TAG, "Draw le text");
         Paint paint = new Paint();
         paint.setColor(Color.rgb(0,0,0));
         paint.setTextSize(48);
@@ -303,7 +305,12 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     public void pauseGame(){
+        int musicTime = mediaPlayer.getCurrentPosition();
+
         mediaPlayer.pause();
+        Log.d(TAG, ("" + musicTime));
+        Log.d(TAG, ("" + mediaPlayer.getCurrentPosition()));
+        mediaPlayer.seekTo(musicTime);
         //isRunning = false;
         gamePaused = true;
         if(surfaceHolder.getSurface().isValid()) {
