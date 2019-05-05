@@ -11,7 +11,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private Button startButton;
-    private Button settingsButton;
+    private Button statsButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,11 +19,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         startButton = findViewById(R.id.startButton);
-        settingsButton = findViewById(R.id.mainSettingsButton);
+        statsButton = findViewById(R.id.mainStatsButton);
 
         startButton.setOnClickListener(view ->{
             Intent i = new Intent(this, GameActivity.class);
             startActivity(i);
         });
+
+        statsButton.setOnClickListener(view ->{
+            startActivity(new Intent(this, StatsActivity.class));
+        });
+
     }
 }

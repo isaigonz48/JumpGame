@@ -25,7 +25,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private static String TAG = "GAMEVIEW";
 
-
+    private int level;
     final static int[] level1 = {5,1,1,1,1,1,5,1,1,6,6,6,6,6,6,6,6,1,1,1,1,1,7,6,6,6,6,7,
             6,6,6,6,6,6,8,6,6,6,6,6,8,6,6,6,6,6,7,7,6,6,6,6,6,6,8,8,6,6,6,1,1,1,1,1,1,
             1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
@@ -55,13 +55,15 @@ public class GameView extends SurfaceView implements Runnable {
 
     private int[] levelObstacles;
     private int levelCount;
-    private boolean lost;
     private int frameTick;
 
     private MediaPlayer mediaPlayer;
 
     private TextView attemptText;
     private int attemptCount;
+
+    private boolean lost;
+    private boolean won;
 
     public GameView(Context context, Point screenSize){
         super(context);
@@ -91,13 +93,16 @@ public class GameView extends SurfaceView implements Runnable {
             numObsInArray++;
         }
 
-        levelObstacles = level1;
+        level = 1;
+        if(level == 1)
+            levelObstacles = level1;
         levelCount = 0;
         frameTick = 0;
 
 
         attemptCount = 1;
         lost = false;
+        won = false;
 
         pauseMenu = new PauseMenu(screenSize);
         gamePaused = false;
@@ -156,6 +161,8 @@ public class GameView extends SurfaceView implements Runnable {
                     lose();
                 if (gamePaused)
                     pauseGame();
+                if(won)
+                    win();
                 //Log.d(TAG, "No crash in draw");
             }
         }
@@ -173,7 +180,7 @@ public class GameView extends SurfaceView implements Runnable {
             obstaclesOnScreen[i].update();
         }
         if(levelCount >= levelObstacles.length){
-            lost = true;
+            won = true;
         }
         floor.update();
         //Log.d(TAG, "about to collide");
@@ -273,8 +280,13 @@ public class GameView extends SurfaceView implements Runnable {
 
     }
 
-    public boolean getLost(){
-        return this.lost;
+    private void win(){
+        isRunning = false;
+        Intent i = new Intent(context, WinActivity.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.putExtra("level", level);
+        i.putExtra("attemptCount", attemptCount);
+        context.startActivity(i);
     }
 
     private void draw(){
