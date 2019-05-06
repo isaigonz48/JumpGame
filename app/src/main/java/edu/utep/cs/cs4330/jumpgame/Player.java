@@ -261,22 +261,29 @@ public class Player {
 
     public void update(){
         //if(!isJumping && !isFalling) {
+        if(jumpBuffer)
+        Log.d(TAG, ("buffering"));
         if(canJump){
             model = models[0];
             if(this.jumpBuffer) {
                 Log.d(TAG, "Jump!");
                 //playerGravity = -playerGravity;
                 //Log.d(TAG, Integer.toString(playerGravity));
-
-                yVel = -36;
+                if(playerGravity > 0)
+                    yVel = -36;
+                else
+                    yVel = +36;
                 //isJumping = true;
                 //isFalling = true;
                 canJump = false;
+                jumpBuffer = false;
             }
-            if(this.gravityBuffer){
-                playerGravity = -playerGravity;
-                canJump = false;
-            }
+
+        }
+        if(this.gravityBuffer){
+            playerGravity = -playerGravity;
+            canJump = false;
+            gravityBuffer = false;
         }
 
         if(++jumpTick > 11)
@@ -292,6 +299,8 @@ public class Player {
         prevYPos = this.point.y;
 
         jumpBuffer = false;
+
+
         this.point.x += xVel;
         this.point.y += yVel;
         //this.rect.set(this.point.x-halfWidth,this.point.y+halfWidth,
@@ -373,7 +382,7 @@ public class Player {
     public void reset(){
         this.prevYPos = startingY;
         this.point.y = startingY;
-        this.playerGravity = 4;
+        this.playerGravity = 3;
 
         this.rect.left = point.x-halfWidth;
         this.rect.top = point.y-halfWidth;

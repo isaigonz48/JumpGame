@@ -26,9 +26,23 @@ public class GameView extends SurfaceView implements Runnable {
     private static String TAG = "GAMEVIEW";
 
     private int level;
-    final static int[] level1 = {5,1,1,1,1,1,5,1,1,6,6,6,6,6,6,6,6,1,1,1,1,1,7,6,6,6,6,7,
-            6,6,6,6,6,6,8,6,6,6,6,6,8,6,6,6,6,6,7,7,6,6,6,6,6,6,8,8,6,6,6,1,1,1,1,1,1,
-            1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
+    //final static int[] level1 = {5,1,1,1,1,1,5,1,1,6,6,6,6,6,6,6,6,1,1,1,1,1,7,6,6,6,6,7,
+      //      6,6,6,6,6,6,8,6,6,6,6,6,8,6,6,6,6,6,7,7,6,6,6,6,6,6,8,8,6,6,6,1,1,1,1,1,1,
+        //    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
+    final static int[] level1 = {1,1,1,1,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,5,1,1,1,
+            //9,10,10,10,
+            1,1,1,0,0,1,1,1,0,0,1,1,1,1,1,0,0,1,1,1,5,1,1,0,0,0,3,1,1,1,1,1,5,1,1,1,5,
+            1,1,1,1,1,1,1,1,1,5,1,1,2,0,0,2,1,1,1,5,1,1,1,1,0,0,0,3,1,1,0,0,0,1,1,5,
+            3,1,1,1,0,0,0,1,1,5,2,1,1,1,1,1,1,5,2,1,1,1,1,2,1,1,0,1,1,1,1,0,0,3,0,0,3,
+            0,3,6,6,6,6,6,6,9,10,10,10,10,10,13,10,0,0,10,10,0,0,0,11,10,13,10,10,10,10,0,0,10,0,0,12,/////// reversed at 9
+            10,10,13,10,10,0,0,0,10,10,14,1,1,1,1,1,1,0,0,2,0,0,2,1,0,0,1,1,5,1,1,0,0,3,0,3,5,1,
+            1,1,1,9,6,6,6,6,6,11,10,10,10,10,0,0,10,10,13,10,10,10,14,10,10,0,0,11,0,0,11,0,12,0,12,0,0,10,10, ///// first 9 yes
+            10,10,10,13,10,0,12,6,6,6,14,10,10,10,13,10,10,10,0,0,10,0,10,11,11,10,10,13,10,10,10,10,10,0,6,14,6,6,1,///// fake 9 first
+            1,2,2,1,1,9,1,1,1,1,0,2,1,0,0,1,1,1,1,0,0,2,0,3,0,0,2,1,3,1,1,3,1,1,0,0,1,1,5,
+            1,1,5,6,6,9,1,1,0,0,2,0,3,0,0,3,0,0,3,0,0,1,1,1,2,2,1,1,9,1,1,5,1,1,3,3,0,0,2,
+            1,1,2,6,6,6,9,6,6,6,6,0,8,6,6,0,0,7,6,0,8,0,0,7,0,0,6,6,6,6,0,8,0,8,6,6,6,14,6,////// first yes
+            6,6,6,1,1,5,2,0,0,1,0,0,3,1,1,9,1,1,1,5,0,1,0,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+            1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
 
     private Context context;
 
@@ -64,6 +78,8 @@ public class GameView extends SurfaceView implements Runnable {
 
     private boolean lost;
     private boolean won;
+
+    private boolean bufferJump;
 
     public GameView(Context context, Point screenSize, int levelSeleceted){
         super(context);
@@ -103,6 +119,7 @@ public class GameView extends SurfaceView implements Runnable {
         attemptCount = 1;
         lost = false;
         won = false;
+        bufferJump = false;
 
         pauseMenu = new PauseMenu(screenSize, context);
         gamePaused = false;
@@ -117,8 +134,10 @@ public class GameView extends SurfaceView implements Runnable {
                             if (event.getX() >= pauseButton.getRect().left && event.getX() <= pauseButton.getRect().right
                                     && event.getY() <= pauseButton.getRect().bottom && event.getY() >= pauseButton.getRect().top)
                                 gamePaused = true;
-                            else
+                            else {
                                 performClick();
+                                bufferJump = true;
+                            }
                         }else{
                             if (event.getX() >= pauseMenu.getExitRect().left && event.getX() <= pauseMenu.getExitRect().right
                                     && event.getY() <= pauseMenu.getExitRect().bottom && event.getY() >= pauseMenu.getExitRect().top)
@@ -130,7 +149,10 @@ public class GameView extends SurfaceView implements Runnable {
 
                         return true;
                     case MotionEvent.ACTION_UP:
+                        bufferJump = false;
                         return true;
+
+
                 }
                 return false;
             }
@@ -149,7 +171,7 @@ public class GameView extends SurfaceView implements Runnable {
             //Log.d(TAG, "Loop");
             if(!gamePaused) {
                 try {
-                    gameThread.sleep(10);
+                    gameThread.sleep(3);
                 } catch (InterruptedException e) {
                 }
                 update();
@@ -170,6 +192,8 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     private void update(){
+        if(bufferJump)
+            player.bufferJump();
         player.update();
 
         if(frameTick == 5) {
@@ -233,6 +257,9 @@ public class GameView extends SurfaceView implements Runnable {
                                 if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect(j)))
                                     lost = true;
                                 break;
+                            case GRAVITY_CHANGER:
+                                player.bufferGravity();
+                                break;
                         }
                     }
                 }
@@ -247,6 +274,9 @@ public class GameView extends SurfaceView implements Runnable {
                             player.collidedWithPlatform(obstaclesOnScreen[i].getRect());
                             if (Rect.intersects(playerRect, obstaclesOnScreen[i].getRect()))
                                 lost = true;
+                            break;
+                        case GRAVITY_CHANGER:
+                            player.bufferGravity();
                             break;
                     }
                 }
@@ -292,7 +322,7 @@ public class GameView extends SurfaceView implements Runnable {
     private void draw(){
         if(surfaceHolder.getSurface().isValid()) {
             canvas = surfaceHolder.lockCanvas();
-            canvas.drawColor(Color.rgb(0, 0, 125));
+            canvas.drawColor(Color.rgb(75, 0, 255));
             player.draw(canvas);
             for(int i = 0; i < numObsInArray; i++){
                 obstaclesOnScreen[i].draw(canvas);
@@ -310,9 +340,9 @@ public class GameView extends SurfaceView implements Runnable {
 
         //Log.d(TAG, "Draw le text");
         Paint paint = new Paint();
-        paint.setColor(Color.rgb(0,0,0));
-        paint.setTextSize(48);
-        canvas.drawText(("Attempt: " + attemptCount), screenWidth - 300,screenHeight/10 - 50, paint);
+        paint.setColor(Color.rgb(255,255,255));
+        paint.setTextSize(64);
+        canvas.drawText(("Attempt: " + attemptCount), screenWidth/2 - 125,screenHeight/10 - 40, paint);
 
     }
 

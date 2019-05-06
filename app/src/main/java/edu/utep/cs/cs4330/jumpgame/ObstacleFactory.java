@@ -82,6 +82,39 @@ public class ObstacleFactory {
                         new Point(screenWidth + 50, oppositeHeight));
                 return obs;
 
+            case 9:
+                ///// To do: grav
+                obs = new ObstacleGravityChanger(new Point(screenWidth + 50, currentHeight-100));
+                return obs;
+
+            case 10:
+                ///// opp platform
+                obs = new ObstaclePlatform(new Point(screenWidth + 50,oppositeHeight));
+                return obs;
+
+            case 11:
+                ///// opp plat one down
+                currentHeight -= 100;
+                oppositeHeight += 100;
+                obs = new ObstaclePlatform(new Point(screenWidth + 50,oppositeHeight));
+                return obs;
+
+            case 12:
+                ///// opp plat one up
+                currentHeight += 100;
+                oppositeHeight -=100;
+                obs = new ObstaclePlatform(new Point(screenWidth + 50,oppositeHeight));
+                return obs;
+
+            case 13:
+                ///// like 5 but opp
+                obs = new ObstacleSimpleSquare(new Point(screenWidth + 50,oppositeHeight+100));
+                return obs;
+
+            case 14:
+                obs = new ObstacleGravityChanger(new Point(screenWidth + 50, oppositeHeight+100));
+                return obs;
+
             default:
                 return new Obstacle();
 

@@ -39,6 +39,7 @@ public class Obstacle {
         this.color = Color.rgb(0,0,0);
         this.point = point;
         this.xVel = -22;
+        //this.xVel = -15;
 
         type = ObstacleType.OBSTACLE;
         numRects = 1;

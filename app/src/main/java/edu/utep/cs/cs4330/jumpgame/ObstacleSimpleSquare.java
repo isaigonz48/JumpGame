@@ -17,7 +17,7 @@ public class ObstacleSimpleSquare extends Obstacle {
 
     public ObstacleSimpleSquare(Point point) {
         super(point);
-        this.halfWidth = 50;
+        this.halfWidth = 25;
         this.color = Color.rgb(255,0,0);
         this.rect = new Rect(point.x - halfWidth, point.y - halfWidth,
                 point.x + halfWidth, point.y + halfWidth);
