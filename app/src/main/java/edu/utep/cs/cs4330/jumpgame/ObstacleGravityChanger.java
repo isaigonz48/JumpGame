@@ -1,13 +1,14 @@
 package edu.utep.cs.cs4330.jumpgame;
 
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 
 public class ObstacleGravityChanger extends Obstacle {
 
-    public ObstacleGravityChanger(Point point) {
-        super(point);
+    public ObstacleGravityChanger(Context context, Point point) {
+        super(context,point);
         this.color = Color.rgb(0,255,0);
         this.halfWidth = 50;
         this.rect = new Rect(point.x - halfWidth, point.y - halfWidth,

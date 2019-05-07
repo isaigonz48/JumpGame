@@ -272,7 +272,7 @@ public class Player {
                 if(playerGravity > 0)
                     yVel = -36;
                 else
-                    yVel = +36;
+                    yVel = 36;
                 //isJumping = true;
                 //isFalling = true;
                 canJump = false;

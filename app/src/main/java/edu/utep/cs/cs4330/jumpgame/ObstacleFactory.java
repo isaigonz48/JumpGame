@@ -1,5 +1,6 @@
 package edu.utep.cs.cs4330.jumpgame;
 
+import android.content.Context;
 import android.graphics.Point;
 import android.util.Log;
 
@@ -10,9 +11,11 @@ public class ObstacleFactory {
     private int screenHeight;
     private static int currentHeight;
     private static int oppositeHeight;
+    private Context context;
 
-    public ObstacleFactory(int screenWidth, int screenHeight){
+    public ObstacleFactory(int screenWidth, int screenHeight, Context context){
 
+        this.context = context;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         currentHeight = (screenHeight - screenHeight/10) -51;
@@ -29,27 +32,27 @@ public class ObstacleFactory {
         switch(selection){
             ///// Platform on same height
             case 1:
-                obs = new ObstaclePlatform(new Point(screenWidth + 50,currentHeight));
+                obs = new ObstaclePlatform(context,new Point(screenWidth + 50,currentHeight));
                 return obs;
             ///// Platform one square up
             case 2:
                 currentHeight -= 100;
                 oppositeHeight += 100;
-                obs = new ObstaclePlatform(new Point(screenWidth + 50,currentHeight));
+                obs = new ObstaclePlatform(context,new Point(screenWidth + 50,currentHeight));
                 return obs;
             ///// Platform one square down
             case 3:
                 currentHeight += 100;
                 oppositeHeight -=100;
-                obs = new ObstaclePlatform(new Point(screenWidth + 50,currentHeight));
+                obs = new ObstaclePlatform(context,new Point(screenWidth + 50,currentHeight));
                 return obs;
             ///// Not platform same height
             case 4:
-                obs = new ObstacleSimpleSquare(new Point(screenWidth + 50,currentHeight));
+                obs = new ObstacleSimpleSquare(context,new Point(screenWidth + 50,currentHeight));
                 return obs;
 
             case 5:
-                obs = new ObstacleSimpleSquare(new Point(screenWidth + 50,currentHeight-100));
+                obs = new ObstacleSimpleSquare(context,new Point(screenWidth + 50,currentHeight-100));
                 return obs;
 
             case 6:
@@ -66,7 +69,7 @@ public class ObstacleFactory {
                     //oppositeHeight
                 }
 
-                obs = new ObstacleDoublePlatform(new Point(screenWidth + 50, currentHeight),
+                obs = new ObstacleDoublePlatform(context,new Point(screenWidth + 50, currentHeight),
                         new Point(screenWidth + 50, oppositeHeight));
                 return obs;
 
@@ -78,41 +81,41 @@ public class ObstacleFactory {
                     //oppositeHeight
                 }
 
-                obs = new ObstacleDoublePlatform(new Point(screenWidth + 50, currentHeight),
+                obs = new ObstacleDoublePlatform(context,new Point(screenWidth + 50, currentHeight),
                         new Point(screenWidth + 50, oppositeHeight));
                 return obs;
 
             case 9:
                 ///// To do: grav
-                obs = new ObstacleGravityChanger(new Point(screenWidth + 50, currentHeight-100));
+                obs = new ObstacleGravityChanger(context,new Point(screenWidth + 50, currentHeight-100));
                 return obs;
 
             case 10:
                 ///// opp platform
-                obs = new ObstaclePlatform(new Point(screenWidth + 50,oppositeHeight));
+                obs = new ObstaclePlatform(context,new Point(screenWidth + 50,oppositeHeight));
                 return obs;
 
             case 11:
                 ///// opp plat one down
                 currentHeight -= 100;
                 oppositeHeight += 100;
-                obs = new ObstaclePlatform(new Point(screenWidth + 50,oppositeHeight));
+                obs = new ObstaclePlatform(context,new Point(screenWidth + 50,oppositeHeight));
                 return obs;
 
             case 12:
                 ///// opp plat one up
                 currentHeight += 100;
                 oppositeHeight -=100;
-                obs = new ObstaclePlatform(new Point(screenWidth + 50,oppositeHeight));
+                obs = new ObstaclePlatform(context,new Point(screenWidth + 50,oppositeHeight));
                 return obs;
 
             case 13:
                 ///// like 5 but opp
-                obs = new ObstacleSimpleSquare(new Point(screenWidth + 50,oppositeHeight+100));
+                obs = new ObstacleSimpleSquare(context,new Point(screenWidth + 50,oppositeHeight+100));
                 return obs;
 
             case 14:
-                obs = new ObstacleGravityChanger(new Point(screenWidth + 50, oppositeHeight+100));
+                obs = new ObstacleGravityChanger(context,new Point(screenWidth + 50, oppositeHeight+100));
                 return obs;
 
             default:

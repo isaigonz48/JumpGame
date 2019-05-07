@@ -1,8 +1,11 @@
 package edu.utep.cs.cs4330.jumpgame;
 
         import android.content.Context;
+        import android.graphics.Bitmap;
+        import android.graphics.BitmapFactory;
         import android.graphics.Canvas;
         import android.graphics.Color;
+        import android.graphics.Matrix;
         import android.graphics.Paint;
         import android.graphics.Point;
         import android.graphics.Rect;
@@ -10,6 +13,7 @@ package edu.utep.cs.cs4330.jumpgame;
 public class Obstacle {
 
 
+    protected Bitmap model;
     protected Rect rect;
     protected Point point;
     protected int color;
@@ -47,11 +51,24 @@ public class Obstacle {
 
     public Obstacle(Context context, Point point){
         //this.rect = new Rect(100,500,200,600);
+        Matrix matrix = new Matrix();
+        this.model = BitmapFactory.decodeResource(context.getResources(), R.drawable.basic_platform);
+        int bWidth = model.getWidth();
+        int bHeight = model.getHeight();
+        matrix.postScale((float)105/bWidth, (float) 105/bHeight);
+        model = Bitmap.createBitmap(model,0,0,bHeight,bWidth,matrix,false);
+
+
         color = Color.rgb(0,0,0);
         this.color = Color.rgb(0,0,0);
         this.point = point;
+        this.xVel = -22;
+        //this.xVel = -15;
+
         type = ObstacleType.OBSTACLE;
         numRects = 1;
+
+
     }
 
     public Obstacle(int color, Point point){
@@ -92,7 +109,8 @@ public class Obstacle {
     public void draw(Canvas canvas){
         Paint paint = new Paint();
         paint.setColor(this.color);
-        canvas.drawRect(this.rect, paint);
+        canvas.drawBitmap(model, point.x - halfWidth, point.y - halfWidth, paint);
+        //canvas.drawRect(this.rect, paint);
         //this.rect.set(this.point.x-50,this.point.y+50,this.point.x+50, this.point.y-50);
         //canvas.drawRect(this.rect, paint);
     }
