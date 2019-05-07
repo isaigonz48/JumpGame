@@ -20,6 +20,7 @@ public class LevelSelectActivity extends AppCompatActivity {
             Intent i = new Intent(this, GameActivity.class);
             i.putExtra("level", 1);
             startActivity(i);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         });
 
         backButton = findViewById(R.id.levelBackButton);

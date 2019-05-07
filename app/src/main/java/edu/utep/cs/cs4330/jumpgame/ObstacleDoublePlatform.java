@@ -11,6 +11,7 @@ public class ObstacleDoublePlatform extends Obstacle {
     //private boolean isPlatform;
     private Rect rect2;
     private Point point2;
+
     //private int halfWidth;
 
 
@@ -41,7 +42,7 @@ public class ObstacleDoublePlatform extends Obstacle {
         this.rect2 = new Rect(point2.x - halfWidth, point2.y - halfWidth,
                 point2.x + halfWidth, point2.y + halfWidth);
         //this.rect = new Rect(point.x + 50, point.y - 50, point.x - 50, point.y + 50);
-        this.xVel = -15;
+        //this.xVel = -15;
         type = ObstacleType.PLATFORM;
         numRects = 2;
     }
@@ -52,7 +53,9 @@ public class ObstacleDoublePlatform extends Obstacle {
         Paint paint = new Paint();
         paint.setColor(this.color);
         //canvas.drawRect(this.rect, paint);
-        canvas.drawRect(this.rect2, paint);
+        //canvas.drawRect(this.rect2, paint);
+        canvas.drawBitmap(this.model, point2.x - halfWidth, point2.y - halfWidth, paint);
+
     }
 
     @Override

@@ -48,15 +48,15 @@ public class ObstacleFactory {
                 return obs;
             ///// Not platform same height
             case 4:
-                obs = new ObstacleSimpleSquare(context,new Point(screenWidth + 50,currentHeight));
+                obs = new ObstacleSimpleSquare(context,new Point(screenWidth + 50,currentHeight),0);
                 return obs;
 
             case 5:
-                obs = new ObstacleSimpleSquare(context,new Point(screenWidth + 50,currentHeight-100));
+                obs = new ObstacleSimpleSquare(context,new Point(screenWidth + 50,currentHeight-100),0);
                 return obs;
 
             case 6:
-                obs = new ObstacleDoublePlatform(new Point(screenWidth + 50, currentHeight),
+                obs = new ObstacleDoublePlatform(context,new Point(screenWidth + 50, currentHeight),
                         new Point(screenWidth + 50, oppositeHeight));
                 Log.d(TAG, "No crash here");
                 return obs;
@@ -87,7 +87,7 @@ public class ObstacleFactory {
 
             case 9:
                 ///// To do: grav
-                obs = new ObstacleGravityChanger(context,new Point(screenWidth + 50, currentHeight-100));
+                obs = new ObstacleGravityChanger(context,new Point(screenWidth + 50, currentHeight-100),0);
                 return obs;
 
             case 10:
@@ -111,11 +111,11 @@ public class ObstacleFactory {
 
             case 13:
                 ///// like 5 but opp
-                obs = new ObstacleSimpleSquare(context,new Point(screenWidth + 50,oppositeHeight+100));
+                obs = new ObstacleSimpleSquare(context,new Point(screenWidth + 50,oppositeHeight+100),1);
                 return obs;
 
             case 14:
-                obs = new ObstacleGravityChanger(context,new Point(screenWidth + 50, oppositeHeight+100));
+                obs = new ObstacleGravityChanger(context,new Point(screenWidth + 50, oppositeHeight+100),1);
                 return obs;
 
             default:

@@ -70,6 +70,28 @@ public class Obstacle {
 
 
     }
+    public Obstacle(Context context, Point point, Bitmap newModel){
+        //this.rect = new Rect(100,500,200,600);
+        Matrix matrix = new Matrix();
+        //this.model = BitmapFactory.decodeResource(context.getResources(), R.drawable.basic_platform);
+        this.model = newModel;
+        int bWidth = model.getWidth();
+        int bHeight = model.getHeight();
+        matrix.postScale((float)105/bWidth, (float) 105/bHeight);
+        model = Bitmap.createBitmap(model,0,0,bHeight,bWidth,matrix,false);
+
+
+        color = Color.rgb(0,0,0);
+        this.color = Color.rgb(0,0,0);
+        this.point = point;
+        this.xVel = -22;
+        //this.xVel = -15;
+
+        type = ObstacleType.OBSTACLE;
+        numRects = 1;
+
+
+    }
 
     public Obstacle(int color, Point point){
         //this.rect = rectangle;

@@ -331,6 +331,10 @@ public class Player {
 
     public void collidedWithFloor(Floor f){
         point.y = startingY;//prevYPos;
+        if(prevYPos <= f.floorLine.centerY() - 50)
+            point.y = (f.floorLine.top)-halfWidth;
+        else if(prevYPos >= f.floorLine.centerY() + 50)
+            point.y = (f.floorLine.bottom+1)+halfWidth;
 
         yVel = 0;
 
@@ -340,7 +344,7 @@ public class Player {
         //this.rect.right = point.x+halfWidth;
         this.rect.bottom = point.y+halfWidth;
         isFalling = false;
-        canJump = true;
+        //canJump = true;
     }
 
     public void collidedWithPlatform(Obstacle o){

@@ -34,7 +34,7 @@ public class PauseMenu {
         this.halfHeight = screenSize.y / 5;
         //this.rect = new Rect(100,500,200,600);
         //color = Color.rgb(255,0,0);
-        this.color = Color.rgb(0,0,100);
+        this.color = Color.rgb(0,153,204);
         this.point = new Point(screenSize.x/2, screenSize.y/2);
         this.menuRect = new Rect(point.x - halfWidth, point.y - halfHeight,
                 point.x + halfWidth, point.y + halfHeight);
@@ -74,7 +74,7 @@ public class PauseMenu {
         Rect bgRect = new Rect(point.x - (halfWidth+3), point.y - (halfHeight+3),
                 point.x + (halfWidth+3), point.y + (halfHeight+3));
 
-        paint.setColor(Color.rgb(0,0,255));
+        paint.setColor(Color.rgb(0,153,204));
 
         canvas.drawRect(bgRect,paint);
         paint.setColor(this.color);
@@ -84,7 +84,7 @@ public class PauseMenu {
 
         //Bitmap button = BitmapFactory.decodeResource(context.getResources(), R.drawable.custom_button_bg);
 
-        paint.setColor(Color.rgb(255,0,0));
+        paint.setColor(Color.rgb(0,0,0));
         //paint.setColor()
         canvas.drawRect(this.exitRect,paint);
         canvas.drawRect(this.resumeRect,paint);
@@ -101,7 +101,7 @@ public class PauseMenu {
 
         //canvas.drawBitmap(button, this.exitRect.left, this.exitRect.top, paint);
 
-        paint.setColor(Color.rgb(255,255,255));
+        paint.setColor(Color.rgb(0,153,204));
         paint.setTextSize(96);
         canvas.drawText("Paused", point.x-150,point.y - halfHeight/3, paint);
         paint.setTextSize(72);
