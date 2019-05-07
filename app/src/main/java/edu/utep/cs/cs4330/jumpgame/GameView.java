@@ -26,9 +26,6 @@ public class GameView extends SurfaceView implements Runnable {
     private static String TAG = "GAMEVIEW";
 
     private int level;
-    //final static int[] level1 = {5,1,1,1,1,1,5,1,1,6,6,6,6,6,6,6,6,1,1,1,1,1,7,6,6,6,6,7,
-      //      6,6,6,6,6,6,8,6,6,6,6,6,8,6,6,6,6,6,7,7,6,6,6,6,6,6,8,8,6,6,6,1,1,1,1,1,1,
-        //    1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
     final static int[] level1 = {1,1,1,1,1,1,5,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,1,1,5,1,1,1,
             1,1,1,0,0,0,1,1,1,1,1,1,1,1,1,0,0,1,1,1,5,1,1,0,0,0,3,1,1,1,1,1,5,1,1,1,5,
             1,1,1,1,1,1,1,1,1,5,1,1,2,0,0,2,1,1,1,5,1,1,1,1,0,0,0,3,1,1,0,0,0,1,1,5,
@@ -46,8 +43,7 @@ public class GameView extends SurfaceView implements Runnable {
             6,6,6,6,0,0,0,11,0,0,0,11,10,0,0,12,0,0,0,11,0,0,0,10,10,10,0,0,0,12,0,0,0,0,10,14,10,////// first yes
             2,1,1,1,1,1,0,0,0,1,0,0,3,1,1,9,1,1,1,5,0,1,1,0,0,0,0,3,1,1,
 
-            1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
-    ,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
+            1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1};
 
     private Context context;
 
@@ -68,7 +64,6 @@ public class GameView extends SurfaceView implements Runnable {
     private ObstacleFactory obstacleFactory;
     private Obstacle[] obstaclesOnScreen;
     private int numObsInArray;
-    private Obstacle obs1;
     private Floor floor;
     private Floor floor2;
 
@@ -77,8 +72,6 @@ public class GameView extends SurfaceView implements Runnable {
     private int frameTick;
 
     private MediaPlayer mediaPlayer;
-
-    private TextView attemptText;
     private int attemptCount;
 
     private boolean lost;
@@ -170,20 +163,14 @@ public class GameView extends SurfaceView implements Runnable {
 
     @Override
     public void run(){
-        //isRunning = true;
-
         while(isRunning){
-            //Log.d(TAG, "Loop");
             if(!gamePaused) {
                 try {
-                    //int currentTime = mediaPlayer.getCurrentPosition();
                     gameThread.sleep(3);
-                    //mediaPlayer.seekTo(currentTime);
                 } catch (InterruptedException e) { e.printStackTrace();
                 }
                 update();
                 //Log.d(TAG, "No crash in update");
-
                 draw();
 
                 if (lost)
@@ -244,7 +231,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void checkCollisions(){
         Rect playerRect = player.getRect();
-        ///// FIX ME
+
         if(Rect.intersects(player.getRect(), floor.getFloorLine()) || Rect.intersects(playerRect, floor2.getFloorLine())) {
             player.collidedWithFloor(floor);
             lost = true;
@@ -293,14 +280,10 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void lose(){
         Log.d("GAMEUPDATE", "lost");
-        Point point = new Point(200,800);
-        //player = new Player(context, point);
         player.reset();
         obstacleFactory.reset();
         numObsInArray = 0;
 
-        //mediaPlayer.stop();
-        //mediaPlayer.reset();
         for(int i = 0; i < 19; i++){
             obstaclesOnScreen[i] = new ObstaclePlatform(context,new Point(i*108, ((screenHeight - screenHeight/10) -51)));
             numObsInArray++;
@@ -311,10 +294,7 @@ public class GameView extends SurfaceView implements Runnable {
         attemptCount++;
 
         lost = false;
-        //mediaPlayer.start();
         mediaPlayer.seekTo(0);
-
-
     }
 
     private void win(){
@@ -340,7 +320,6 @@ public class GameView extends SurfaceView implements Runnable {
             floor2.draw(canvas);
             drawText();
             pauseButton.draw(canvas);
-            //pauseMenu.draw(canvas);
             surfaceHolder.unlockCanvasAndPost(canvas);
         }
     }
@@ -377,8 +356,6 @@ public class GameView extends SurfaceView implements Runnable {
     }
 
     public void exitGame(){
-        //getContext().startActivity(new Intent(getContext(), MainActivity.class));
-        //finish();
         isRunning = false;
         Intent i = new Intent(context, MainActivity.class);
         i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -397,7 +374,7 @@ public class GameView extends SurfaceView implements Runnable {
         isRunning = true;
         gameThread = new Thread(this);
         gameThread.start();
+        //gamePaused = true;
         mediaPlayer.start();
-        //run();
     }
 }
