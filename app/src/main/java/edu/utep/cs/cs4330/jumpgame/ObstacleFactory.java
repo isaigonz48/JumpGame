@@ -118,6 +118,41 @@ public class ObstacleFactory {
                 obs = new ObstacleGravityChanger(context,new Point(screenWidth + 50, oppositeHeight+100),1);
                 return obs;
 
+            case 15:
+                currentHeight -= 200;
+                oppositeHeight += 200;
+                obs = new ObstaclePlatform(context,new Point(screenWidth + 50,currentHeight));
+                return obs;
+
+            case 16:
+                currentHeight += 200;
+                oppositeHeight -= 200;
+                obs = new ObstaclePlatform(context,new Point(screenWidth + 50,currentHeight));
+                return obs;
+
+            case 17:
+                currentHeight -= 200;
+                oppositeHeight += 200;
+                obs = new ObstaclePlatform(context,new Point(screenWidth + 50,oppositeHeight));
+                return obs;
+
+            case 18:
+                currentHeight += 200;
+                oppositeHeight -= 200;
+                obs = new ObstaclePlatform(context,new Point(screenWidth + 50,oppositeHeight));
+                return obs;
+
+            case 19:
+                currentHeight = (screenHeight - screenHeight/10) -51;
+                oppositeHeight = screenHeight - currentHeight;
+                obs = new ObstaclePlatform(context,new Point(screenWidth + 50,currentHeight));
+                return obs;
+
+            case 20:
+                currentHeight = (screenHeight - screenHeight/10) -51;
+                oppositeHeight = screenHeight - currentHeight;
+                obs = new ObstaclePlatform(context,new Point(screenWidth + 50,oppositeHeight));
+                return obs;
             default:
                 return new Obstacle();
 

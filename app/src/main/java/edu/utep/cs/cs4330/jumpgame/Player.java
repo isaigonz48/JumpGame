@@ -299,7 +299,7 @@ public class Player {
         prevYPos = this.point.y;
 
         jumpBuffer = false;
-
+        canJump = false;
 
         this.point.x += xVel;
         this.point.y += yVel;
@@ -344,7 +344,7 @@ public class Player {
         //this.rect.right = point.x+halfWidth;
         this.rect.bottom = point.y+halfWidth;
         isFalling = false;
-        //canJump = true;
+        canJump = true;
     }
 
     public void collidedWithPlatform(Obstacle o){
